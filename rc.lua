@@ -128,8 +128,10 @@ mytaglist.buttons = awful.util.table.join(
                     awful.button({ modkey }, 1, awful.client.movetotag),
                     awful.button({ }, 3, awful.tag.viewtoggle),
                     awful.button({ modkey }, 3, awful.client.toggletag),
-                    awful.button({ }, 4, awful.tag.viewnext),
-                    awful.button({ }, 5, awful.tag.viewprev)
+                    --awful.button({ }, 4, awful.tag.viewnext),
+                   -- awful.button({ }, 5, awful.tag.viewprev)
+                    awful.button({ }, 4, function() view_non_empty(1) end),
+                    awful.button({ }, 5, function() view_non_empty(-1) end)
                     )
 mytasklist = {}
 mytasklist.buttons = awful.util.table.join(
@@ -208,8 +210,11 @@ end
 
 -- {{{ Mouse bindings
 root.buttons(awful.util.table.join(
-    awful.button({ }, 4, awful.tag.viewnext),
-    awful.button({ }, 5, awful.tag.viewprev)
+    --awful.button({ }, 4, awful.tag.viewnext),
+    --awful.button({ }, 5, awful.tag.viewprev)
+    awful.button({ }, 4, function() view_non_empty(1) end),
+    awful.button({ }, 5, function() view_non_empty(-1) end)
+
 ))
 -- }}}
 
