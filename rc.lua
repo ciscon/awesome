@@ -8,16 +8,13 @@ require("beautiful")
 -- Notification library
 require("naughty")
 require("wicked")
-require("rodentbane")
+--require("rodentbane")
 
 
 function view_non_empty(step, s)
    local s = mouse.screen or 1
    local scr = screen[s]
 
-   -- The following makes sure we don't go into an endless loop
-   -- if no clients are visible. I guess that case could be handled better,
-   -- but meh
    local num_tags = #scr:tags()
    for i = 1, num_tags do
      awful.tag.viewidx(step, scr)
@@ -30,9 +27,6 @@ end
 
 
 
--- {{{ Error handling
--- Check if awesome encountered an error during startup and fell back to
--- another config (This code will only ever execute for the fallback config)
 if awesome.startup_errors then
     naughty.notify({ preset = naughty.config.presets.critical,
                      title = "Oops, there were errors during startup!",
@@ -231,7 +225,7 @@ globalkeys = awful.util.table.join(
             end
         end),
 
-    awful.key({ modkey,    }, "r",   rodentbane.start     ),
+    --awful.key({ modkey,    }, "r",   rodentbane.start     ),
     awful.key({ modkey,  "Shift"         }, "h",  function() view_non_empty(-1) end),
     awful.key({ modkey,  "Shift"         }, "l",  function() view_non_empty(1) end),
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
@@ -268,8 +262,8 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "h",     function () awful.tag.incmwfact(-0.05)    end),
     awful.key({ modkey, "Shift"   }, ",",     function () awful.tag.incnmaster( 1)      end),
     awful.key({ modkey, "Shift"   }, ".",     function () awful.tag.incnmaster(-1)      end),
-    awful.key({ modkey, "Control" }, "h",     function () awful.tag.incncol( 1)         end),
-    awful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1)         end),
+    awful.key({ modkey, "Control" }, "h",     awful.tag.viewprev),
+    awful.key({ modkey, "Control" }, "l",     awful.tag.viewnext),
     awful.key({ modkey,           }, "space", function () awful.layout.inc(layouts,  1) end),
     awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end),
 
