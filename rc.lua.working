@@ -10,16 +10,11 @@ local beautiful = require("beautiful")
 -- Notification library
 local naughty = require("naughty")
 local menubar = require("menubar")
-
---require("vain")
-local lain = require("lain")
 local vicious = require("vicious")
 
---package.path = package.path .. ';/usr/share/awesome/lib/?/init.lua;/usr/share/awesome/lib/?.lua;/home/dglidden/.config/awesome/sharetags/init.lua'
---local sharetags = require("sharetags")
+local cairo = require("lgi")
 
-
-
+--local oocairo = require("oocairo")
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -46,19 +41,11 @@ end
 -- }}}
 
 -- {{{ Variable definitions
--- Themes define colours, icons, font and wallpapers.
---beautiful.init(os.getenv("HOME") .. "/.config/awesome/themes/zenburn/theme.lua")
-beautiful.init(os.getenv("HOME") .. "/.config/awesome/extended_theme.lua")
-
-
-
+-- Themes define colours, icons, and wallpapers
+beautiful.init("/usr/share/awesome/themes/custom/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
---terminal = "aterm"
---terminal = "roxterm"
---terminal = "lilyterm"
---terminal = "st"
-terminal = "urxvtc"
+terminal = "xterm"
 editor = os.getenv("EDITOR") or "vim"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -73,21 +60,15 @@ modkey = "Mod1"
 local layouts =
 {
     awful.layout.suit.tile,
-    --lain.layout.uselesstile,
     awful.layout.suit.floating,
-    --lain.layout.uselesstile.bottom,
     --awful.layout.suit.tile.left,
     --awful.layout.suit.tile.bottom,
-    --lain.layout.uselesstile.bottom,
-    --awful.layout.suit.tile.top,
-    --awful.layout.suit.tile.bottom,
-    awful.layout.suit.fair,
-    --lain.layout.uselessfair,
-    --awful.layout.suit.fair.vertical,
+    awful.layout.suit.tile.top,
+    --awful.layout.suit.fair,
     --awful.layout.suit.fair.horizontal,
     --awful.layout.suit.spiral,
     --awful.layout.suit.spiral.dwindle,
-   --awful.layout.suit.max,
+    awful.layout.suit.max,
     --awful.layout.suit.max.fullscreen,
     --awful.layout.suit.magnifier
 }
@@ -103,68 +84,71 @@ end
 
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
-
-
-
 tags = {}
 for s = 1, screen.count() do
---    -- Each screen has its own tag table.
+    -- Each screen has its own tag table.
     tags[s] = awful.tag({ 1, 2, 3, 4, 5, 6, 7, 8, 9 }, s, layouts[1])
 end
---
---
---only one taglist
---tags = {}
---local s = 1
---tags[s] = awful.tag({ 1, 2, 3, 4, 5, 6, 7, 8, 9 }, s, layouts[1])
---
-----sharedtags
---for s = 1, screen.count() do
---tags = {
---            names = { 1,2,3,4,5,6,7,8, 9 }}
---end
---tags = sharetags.create_tags(tags.names, tags.layout)
-
-
-
 -- }}}
 
 -- {{{ Menu
 -- Create a laucher widget and a main menu
---myawesomemenu = {
---   { "manual", terminal .. " -e man awesome" },
---   { "edit config", editor_cmd .. " " .. awesome.conffile },
---   { "restart", awesome.restart },
---   { "quit", awesome.quit }
---}
---
---mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
---                                    { "open terminal", terminal }
---                                  }
---                        })
---
+
+
 --mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
---                                     menu = mymainmenu })
+ --                                     })
 
 -- Menubar configuration
---menubar.utils.terminal = terminal -- Set the terminal for applications that require it
+menubar.utils.terminal = terminal -- Set the terminal for applications that require it
 -- }}}
 
 -- {{{ Wibox
-
-
--- Initialize widget
+--
+--separator = wibox.widget.textbox({ type = "textbox", name = "separator" })
+--separator.text = " | "
+-- CPU usage widget
 cpuwidget = awful.widget.graph()
--- Graph properties
-cpuwidget:set_width(50)
+cpuwidget:set_width(30)
+--cpuwidget:set_height(22)
 cpuwidget:set_background_color("#494B4F")
-cpuwidget:set_color({ type = "linear", from = { 0, 0 }, to = { 10,0 }, stops = { {0, "#FF5656"}, {0.5, "#88A175"}, 
-                    {1, "#AECF96" }}})
--- Register widget
-vicious.register(cpuwidget, vicious.widgets.cpu, "$1")
+cpuwidget:set_color("#FF5656")
+--cpuwidget:set_gradient_colors({ "#FF5656", "#88A175", "#AECF96" })
 
--- Create a textclock widget
+cpuwidget_t = awful.tooltip({ objects = { cpuwidget.widget },})
+
+-- Register CPU widget
+vicious.register(cpuwidget, vicious.widgets.cpu,
+                    function (widget, args)
+                        cpuwidget_t:set_text("CPU Usage: " .. args[1] .. "%")
+                        return args[1]
+                    end)
+
+
+cpuicon = wibox.widget.imagebox()
+cpuicon:set_resize(false)
+cpuicon:set_image("/usr/share/icons/oxygen/22x22/devices/cpu.png")
+
+
+spacer = wibox.widget.textbox()
+spacer:set_text(" ")
+
+
+
+
+
 mytextclock = awful.widget.textclock()
+battext = wibox.widget.textbox({ type = "textbox", name = "battext" })
+vicious.register(battext, vicious.widgets.bat, "$2%  ", 60, "BAT0")
+--vicious.register(battext, vicious.widgets.bat, "$2% $3 | ", 60, "BAT0")
+
+
+baticon = wibox.widget.imagebox()
+baticon:set_resize(false)
+baticon:set_image("/usr/share/icons/gnome/24x24/devices/battery.png")
+
+
+
+--baticon.image = "/usr/share/icons/gnome/48x48/devices/battery.png"
 
 -- Create a wibox for each screen and add it
 mywibox = {}
@@ -176,11 +160,8 @@ mytaglist.buttons = awful.util.table.join(
                     awful.button({ modkey }, 1, awful.client.movetotag),
                     awful.button({ }, 3, awful.tag.viewtoggle),
                     awful.button({ modkey }, 3, awful.client.toggletag),
-                    --awful.button({ }, 4, function(t) awful.tag.viewnext(awful.tag.getscreen(t)) end),
-                    --awful.button({ }, 5, function(t) awful.tag.viewprev(awful.tag.getscreen(t)) end)
-                    awful.button({ }, 4,   function () lain.util.tag_view_nonempty(1) end),
-                    awful.button({ }, 5,   function () lain.util.tag_view_nonempty(-1) end)
-
+                    awful.button({ }, 4, function(t) awful.tag.viewnext(awful.tag.getscreen(t)) end),
+                    awful.button({ }, 5, function(t) awful.tag.viewprev(awful.tag.getscreen(t)) end)
                     )
 mytasklist = {}
 mytasklist.buttons = awful.util.table.join(
@@ -205,9 +186,7 @@ mytasklist.buttons = awful.util.table.join(
                                                   instance:hide()
                                                   instance = nil
                                               else
-                                                  instance = awful.menu.clients({
-                                                      theme = { width = 250 }
-                                                  })
+                                                  instance = awful.menu.clients({ width=250 })
                                               end
                                           end),
                      awful.button({ }, 4, function ()
@@ -231,31 +210,34 @@ for s = 1, screen.count() do
                            awful.button({ }, 4, function () awful.layout.inc(layouts, 1) end),
                            awful.button({ }, 5, function () awful.layout.inc(layouts, -1) end)))
     -- Create a taglist widget
---mytaglist = awful.widget.taglist(s, awful.widget.taglist.label.noempty, mytaglist.buttons)
-       mytaglist[s] = awful.widget.taglist(s, awful.widget.taglist.filter.all, mytaglist.buttons)
-           ----mytaglist[s] = sharetags.taglist_new(s, sharetags.filter_all, mytaglist.buttons)
-
-               --mytaglist[s] = sharetags.taglist(s, awful.widget.taglist.filter.all, mytaglist.buttons)
-
+    mytaglist[s] = awful.widget.taglist(s, awful.widget.taglist.filter.all, mytaglist.buttons)
 
     -- Create a tasklist widget
     mytasklist[s] = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, mytasklist.buttons)
 
     -- Create the wibox
-    mywibox[s] = awful.wibox({ position = "bottom", screen = s })
+    mywibox[s] = awful.wibox({ position = "top", screen = s })
 
     -- Widgets that are aligned to the left
     local left_layout = wibox.layout.fixed.horizontal()
     --left_layout:add(mylauncher)
+    left_layout:add(mylayoutbox[s])
     left_layout:add(mytaglist[s])
     left_layout:add(mypromptbox[s])
 
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
     if s == 1 then right_layout:add(wibox.widget.systray()) end
+    right_layout:add(spacer)
+    right_layout:add(spacer)
+    right_layout:add(cpuicon)
     right_layout:add(cpuwidget)
+    right_layout:add(spacer)
+    right_layout:add(baticon)
+    right_layout:add(battext)
+    --right_layout:add(separator)
     right_layout:add(mytextclock)
-    right_layout:add(mylayoutbox[s])
+    --right_layout:add(mylayoutbox[s])
 
     -- Now bring it all together (with the tasklist in the middle)
     local layout = wibox.layout.align.horizontal()
@@ -269,42 +251,15 @@ end
 
 -- {{{ Mouse bindings
 root.buttons(awful.util.table.join(
-    --awful.button({ }, 3, function () mymainmenu:toggle() end),
-    --awful.button({ }, 4, awful.tag.viewnext),
-    --awful.button({ }, 5, awful.tag.viewprev)
-        awful.button({ }, 4,   function () lain.util.tag_view_nonempty(-1) end),
-            awful.button({ }, 5,   function () lain.util.tag_view_nonempty(1) end)
-
+    awful.button({ }, 4, awful.tag.viewnext),
+    awful.button({ }, 5, awful.tag.viewprev)
 ))
 -- }}}
 
-
--- function view_non_empty(step, s)
---    local s = mouse.screen or 1
---    local scr = screen[s]
--- 
---    local num_tags = #awful.tag.gettags(scr)
---    --local num_tags = #scr:tags()
---    for i = 1, num_tags do
---      awful.tag.viewidx(step, scr)
---      if #awful.client.visible(s) > 0 then
---         return
---      end
---   end
--- end
--- 
 -- {{{ Key bindings
 globalkeys = awful.util.table.join(
-
-    awful.key({ modkey,  "Shift"         }, "h",   function () lain.util.tag_view_nonempty(-1) end),
-    awful.key({ modkey,  "Shift"         }, "l",   function () lain.util.tag_view_nonempty(1) end),
-    --awful.key({ modkey,  "Shift"         }, "h",  function() view_non_empty(-1) end),
-    --awful.key({ modkey,  "Shift"         }, "l",  function() view_non_empty(1) end),
-
-awful.key({ modkey,   "Shift"},         "x",     function () awful.util.spawn("xscreensaver-command -lock") end),
-
-    awful.key({ modkey,   "Control"        }, "h",   awful.tag.viewprev       ),
-    awful.key({ modkey,    "Control"       }, "l",  awful.tag.viewnext       ),
+    awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
+    awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
 
     awful.key({ modkey,           }, "j",
@@ -340,25 +295,17 @@ awful.key({ modkey,   "Shift"},         "x",     function () awful.util.spawn("x
 
     awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)    end),
     awful.key({ modkey,           }, "h",     function () awful.tag.incmwfact(-0.05)    end),
-    awful.key({ modkey, "Shift"   }, ",",     function () awful.tag.incnmaster( 1)      end),
-    awful.key({ modkey, "Shift"   }, ".",     function () awful.tag.incnmaster(-1)      end),
-    awful.key({ modkey,  }, ",",     function () awful.client.incwfact( 0.05)         end),
-    awful.key({ modkey,  }, ".",     function () awful.client.incwfact( -0.05)         end),
+    awful.key({ modkey, "Shift"   }, "h",     function () awful.tag.incnmaster( 1)      end),
+    awful.key({ modkey, "Shift"   }, "l",     function () awful.tag.incnmaster(-1)      end),
+    awful.key({ modkey, "Control" }, "h",     function () awful.tag.incncol( 1)         end),
+    awful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1)         end),
     awful.key({ modkey,           }, "space", function () awful.layout.inc(layouts,  1) end),
     awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end),
 
     awful.key({ modkey, "Control" }, "n", awful.client.restore),
-    awful.key({ modkey, "Shift"   }, "n", 
-        function()
-            local tag = awful.tag.selected()
-                for i=1, #tag:clients() do
-                    tag:clients()[i].minimized=false
-                    --tag:clients()[i]:redraw()
-            end
-        end),
 
     -- Prompt
-    awful.key({ modkey },            "p",     function () mypromptbox[mouse.screen]:run() end),
+    awful.key({ modkey },            "r",     function () mypromptbox[mouse.screen]:run() end),
 
     awful.key({ modkey }, "x",
               function ()
@@ -366,9 +313,9 @@ awful.key({ modkey,   "Shift"},         "x",     function () awful.util.spawn("x
                   mypromptbox[mouse.screen].widget,
                   awful.util.eval, nil,
                   awful.util.getdir("cache") .. "/history_eval")
-              end)
+              end),
     -- Menubar
-    --awful.key({ modkey }, "p", function() menubar.show() end)
+    awful.key({ modkey }, "p", function() menubar.show() end)
 )
 
 clientkeys = awful.util.table.join(
@@ -377,8 +324,7 @@ clientkeys = awful.util.table.join(
     awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ),
     awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end),
     awful.key({ modkey,           }, "o",      awful.client.movetoscreen                        ),
-    awful.key({ modkey,  "Shift"         }, "t",      function (c) c.ontop = not c.ontop            end),
-    awful.key({ modkey,           }, "t",      awful.client.floating.toggle                     ),
+    awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end),
     awful.key({ modkey,           }, "n",
         function (c)
             -- The client currently has the input focus, so it cannot be
@@ -392,47 +338,41 @@ clientkeys = awful.util.table.join(
         end)
 )
 
+-- Compute the maximum number of digit we need, limited to 9
+keynumber = 0
+for s = 1, screen.count() do
+   keynumber = math.min(9, math.max(#tags[s], keynumber))
+end
+
 -- Bind all key numbers to tags.
 -- Be careful: we use keycodes to make it works on any keyboard layout.
 -- This should map on the top row of your keyboard, usually 1 to 9.
-for i = 1, 9 do
+for i = 1, keynumber do
     globalkeys = awful.util.table.join(globalkeys,
-        -- View tag only.
         awful.key({ modkey }, "#" .. i + 9,
                   function ()
                         local screen = mouse.screen
-                        local tag = awful.tag.gettags(screen)[i]
-                        if tag then
-                           awful.tag.viewonly(tag)
+                        if tags[screen][i] then
+                            awful.tag.viewonly(tags[screen][i])
                         end
                   end),
-        -- Toggle tag.
         awful.key({ modkey, "Control" }, "#" .. i + 9,
                   function ()
                       local screen = mouse.screen
-                      local tag = awful.tag.gettags(screen)[i]
-                      if tag then
-                         awful.tag.viewtoggle(tag)
+                      if tags[screen][i] then
+                          awful.tag.viewtoggle(tags[screen][i])
                       end
                   end),
-        -- Move client to tag.
         awful.key({ modkey, "Shift" }, "#" .. i + 9,
                   function ()
-                      if client.focus then
-                          local tag = awful.tag.gettags(client.focus.screen)[i]
-                          if tag then
-                              awful.client.movetotag(tag)
-                          end
-                     end
+                      if client.focus and tags[client.focus.screen][i] then
+                          awful.client.movetotag(tags[client.focus.screen][i])
+                      end
                   end),
-        -- Toggle tag.
         awful.key({ modkey, "Control", "Shift" }, "#" .. i + 9,
                   function ()
-                      if client.focus then
-                          local tag = awful.tag.gettags(client.focus.screen)[i]
-                          if tag then
-                              awful.client.toggletag(tag)
-                          end
+                      if client.focus and tags[client.focus.screen][i] then
+                          awful.client.toggletag(tags[client.focus.screen][i])
                       end
                   end))
 end
@@ -447,14 +387,12 @@ root.keys(globalkeys)
 -- }}}
 
 -- {{{ Rules
--- Rules to apply to new clients (through the "manage" signal).
 awful.rules.rules = {
     -- All clients will match this rule.
     { rule = { },
       properties = { border_width = beautiful.border_width,
                      border_color = beautiful.border_normal,
                      focus = awful.client.focus.filter,
-                     raise = true,
                      keys = clientkeys,
                      buttons = clientbuttons } },
     { rule = { class = "MPlayer" },
@@ -463,8 +401,6 @@ awful.rules.rules = {
       properties = { floating = true } },
     { rule = { class = "gimp" },
       properties = { floating = true } },
-      {rule = {class = "xterm-256color"}, 
-       properties = {opacity = 0.88} },
     -- Set Firefox to always map on tags number 2 of screen 1.
     -- { rule = { class = "Firefox" },
     --   properties = { tag = tags[1][2] } },
@@ -496,24 +432,9 @@ client.connect_signal("manage", function (c, startup)
 
     local titlebars_enabled = false
     if titlebars_enabled and (c.type == "normal" or c.type == "dialog") then
-        -- buttons for the titlebar
-        local buttons = awful.util.table.join(
-                awful.button({ }, 1, function()
-                    client.focus = c
-                    c:raise()
-                    awful.mouse.client.move(c)
-                end),
-                awful.button({ }, 3, function()
-                    client.focus = c
-                    c:raise()
-                    awful.mouse.client.resize(c)
-                end)
-                )
-
         -- Widgets that are aligned to the left
         local left_layout = wibox.layout.fixed.horizontal()
         left_layout:add(awful.titlebar.widget.iconwidget(c))
-        left_layout:buttons(buttons)
 
         -- Widgets that are aligned to the right
         local right_layout = wibox.layout.fixed.horizontal()
@@ -524,17 +445,25 @@ client.connect_signal("manage", function (c, startup)
         right_layout:add(awful.titlebar.widget.closebutton(c))
 
         -- The title goes in the middle
-        local middle_layout = wibox.layout.flex.horizontal()
         local title = awful.titlebar.widget.titlewidget(c)
-        title:set_align("center")
-        middle_layout:add(title)
-        middle_layout:buttons(buttons)
+        title:buttons(awful.util.table.join(
+                awful.button({ }, 1, function()
+                    client.focus = c
+                    c:raise()
+                    awful.mouse.client.move(c)
+                end),
+                awful.button({ }, 3, function()
+                    client.focus = c
+                    c:raise()
+                    awful.mouse.client.resize(c)
+                end)
+                ))
 
         -- Now bring it all together
         local layout = wibox.layout.align.horizontal()
         layout:set_left(left_layout)
         layout:set_right(right_layout)
-        layout:set_middle(middle_layout)
+        layout:set_middle(title)
 
         awful.titlebar(c):set_widget(layout)
     end
@@ -542,16 +471,4 @@ end)
 
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
-
-awful.util.spawn_with_shell("external_on")
-awful.util.spawn_with_shell("xbindkeys")
-awful.util.spawn_with_shell("killall -9 compton;compton --unredir-if-possible --glx-no-stencil --glx-use-copysubbuffermesa --glx-no-rebind-pixmap")
-awful.util.spawn_with_shell("xscreensaver -no-splash")
-awful.util.spawn_with_shell("ps aux|grep show_battery_status|grep -v grep|awk '{print $2}'|xargs kill -9;pkill -9 show_battery_status;show_battery_status")
-awful.util.spawn_with_shell("pkill -9 wicd-client;wicd-gtk -t")
-awful.util.spawn_with_shell("pkill -9 volumeicon;volumeicon")
---awful.util.spawn_with_shell("pkill -9 pasystray;pasystray")
-awful.util.spawn_with_shell("urxvtd -f -o")
-awful.util.spawn_with_shell("numlockx off")
-
 -- }}}

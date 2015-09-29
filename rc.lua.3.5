@@ -15,10 +15,6 @@ local menubar = require("menubar")
 local lain = require("lain")
 local vicious = require("vicious")
 
---package.path = package.path .. ';/usr/share/awesome/lib/?/init.lua;/usr/share/awesome/lib/?.lua;/home/dglidden/.config/awesome/sharetags/init.lua'
---local sharetags = require("sharetags")
-
-
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -54,11 +50,7 @@ beautiful.init(os.getenv("HOME") .. "/.config/awesome/extended_theme.lua")
 
 
 -- This is used later as the default terminal and editor to run.
---terminal = "aterm"
---terminal = "roxterm"
---terminal = "lilyterm"
---terminal = "st"
-terminal = "urxvtc"
+terminal = "evilvte"
 editor = os.getenv("EDITOR") or "vim"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -77,18 +69,16 @@ local layouts =
     awful.layout.suit.floating,
     --lain.layout.uselesstile.bottom,
     --awful.layout.suit.tile.left,
-    --awful.layout.suit.tile.bottom,
+    awful.layout.suit.tile.bottom,
     --lain.layout.uselesstile.bottom,
     --awful.layout.suit.tile.top,
-    --awful.layout.suit.tile.bottom,
     awful.layout.suit.fair,
-    --lain.layout.uselessfair,
-    --awful.layout.suit.fair.vertical,
+   -- lain.layout.uselessfair,
     --awful.layout.suit.fair.horizontal,
     --awful.layout.suit.spiral,
     --awful.layout.suit.spiral.dwindle,
-   --awful.layout.suit.max,
-    --awful.layout.suit.max.fullscreen,
+    --awful.layout.suit.max,
+    awful.layout.suit.max.fullscreen,
     --awful.layout.suit.magnifier
 }
 -- }}}
@@ -103,30 +93,11 @@ end
 
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
-
-
-
 tags = {}
 for s = 1, screen.count() do
---    -- Each screen has its own tag table.
+    -- Each screen has its own tag table.
     tags[s] = awful.tag({ 1, 2, 3, 4, 5, 6, 7, 8, 9 }, s, layouts[1])
 end
---
---
---only one taglist
---tags = {}
---local s = 1
---tags[s] = awful.tag({ 1, 2, 3, 4, 5, 6, 7, 8, 9 }, s, layouts[1])
---
-----sharedtags
---for s = 1, screen.count() do
---tags = {
---            names = { 1,2,3,4,5,6,7,8, 9 }}
---end
---tags = sharetags.create_tags(tags.names, tags.layout)
-
-
-
 -- }}}
 
 -- {{{ Menu
@@ -232,11 +203,8 @@ for s = 1, screen.count() do
                            awful.button({ }, 5, function () awful.layout.inc(layouts, -1) end)))
     -- Create a taglist widget
 --mytaglist = awful.widget.taglist(s, awful.widget.taglist.label.noempty, mytaglist.buttons)
-       mytaglist[s] = awful.widget.taglist(s, awful.widget.taglist.filter.all, mytaglist.buttons)
-           ----mytaglist[s] = sharetags.taglist_new(s, sharetags.filter_all, mytaglist.buttons)
 
-               --mytaglist[s] = sharetags.taglist(s, awful.widget.taglist.filter.all, mytaglist.buttons)
-
+        mytaglist[s] = awful.widget.taglist(s, awful.widget.taglist.filter.all, mytaglist.buttons)
 
     -- Create a tasklist widget
     mytasklist[s] = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, mytasklist.buttons)
@@ -342,20 +310,12 @@ awful.key({ modkey,   "Shift"},         "x",     function () awful.util.spawn("x
     awful.key({ modkey,           }, "h",     function () awful.tag.incmwfact(-0.05)    end),
     awful.key({ modkey, "Shift"   }, ",",     function () awful.tag.incnmaster( 1)      end),
     awful.key({ modkey, "Shift"   }, ".",     function () awful.tag.incnmaster(-1)      end),
-    awful.key({ modkey,  }, ",",     function () awful.client.incwfact( 0.05)         end),
-    awful.key({ modkey,  }, ".",     function () awful.client.incwfact( -0.05)         end),
+    --awful.key({ modkey, "Control" }, "h",     function () awful.tag.incncol( 1)         end),
+    --awful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1)         end),
     awful.key({ modkey,           }, "space", function () awful.layout.inc(layouts,  1) end),
     awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end),
 
     awful.key({ modkey, "Control" }, "n", awful.client.restore),
-    awful.key({ modkey, "Shift"   }, "n", 
-        function()
-            local tag = awful.tag.selected()
-                for i=1, #tag:clients() do
-                    tag:clients()[i].minimized=false
-                    --tag:clients()[i]:redraw()
-            end
-        end),
 
     -- Prompt
     awful.key({ modkey },            "p",     function () mypromptbox[mouse.screen]:run() end),
@@ -377,7 +337,7 @@ clientkeys = awful.util.table.join(
     awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ),
     awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end),
     awful.key({ modkey,           }, "o",      awful.client.movetoscreen                        ),
-    awful.key({ modkey,  "Shift"         }, "t",      function (c) c.ontop = not c.ontop            end),
+    --awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end),
     awful.key({ modkey,           }, "t",      awful.client.floating.toggle                     ),
     awful.key({ modkey,           }, "n",
         function (c)
@@ -463,8 +423,6 @@ awful.rules.rules = {
       properties = { floating = true } },
     { rule = { class = "gimp" },
       properties = { floating = true } },
-      {rule = {class = "xterm-256color"}, 
-       properties = {opacity = 0.88} },
     -- Set Firefox to always map on tags number 2 of screen 1.
     -- { rule = { class = "Firefox" },
     --   properties = { tag = tags[1][2] } },
@@ -542,16 +500,4 @@ end)
 
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
-
-awful.util.spawn_with_shell("external_on")
-awful.util.spawn_with_shell("xbindkeys")
-awful.util.spawn_with_shell("killall -9 compton;compton --unredir-if-possible --glx-no-stencil --glx-use-copysubbuffermesa --glx-no-rebind-pixmap")
-awful.util.spawn_with_shell("xscreensaver -no-splash")
-awful.util.spawn_with_shell("ps aux|grep show_battery_status|grep -v grep|awk '{print $2}'|xargs kill -9;pkill -9 show_battery_status;show_battery_status")
-awful.util.spawn_with_shell("pkill -9 wicd-client;wicd-gtk -t")
-awful.util.spawn_with_shell("pkill -9 volumeicon;volumeicon")
---awful.util.spawn_with_shell("pkill -9 pasystray;pasystray")
-awful.util.spawn_with_shell("urxvtd -f -o")
-awful.util.spawn_with_shell("numlockx off")
-
 -- }}}
