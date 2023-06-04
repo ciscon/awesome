@@ -9,7 +9,7 @@ local naughty = require("naughty")
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
 
-local lain = require("lain")
+-- local lain = require("lain")
 
 local has_fdo, freedesktop = pcall(require, "freedesktop")
 
@@ -111,20 +111,20 @@ awful.button({ }, 5, function ()
 end))
 
 
-local markup = lain.util.markup
+-- local markup = lain.util.markup
 local white = beautiful.fg_normal
 local black = beautiful.bg_normal
-local mytextclock = wibox.widget.textclock(markup(white, "%a %b %m-%d-%y %H:%M "))
+local mytextclock = wibox.widget.textclock("%a %b %m-%d-%y %H:%M ")
 mytextclock.font = beautiful.font
 
-cal = lain.widget.cal({
-  attach_to = { mytextclock },
-  notification_preset = {
-    font = beautiful.font,
-    fg   = white,
-    bg = black
-  }
-})
+-- cal = lain.widget.cal({
+--   attach_to = { mytextclock },
+--   notification_preset = {
+--     font = beautiful.font,
+--     fg   = white,
+--     bg = black
+--   }
+-- })
 
 
 local trayscreen = screen[1]

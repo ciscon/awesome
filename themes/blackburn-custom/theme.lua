@@ -6,7 +6,7 @@
 --]]
 
 local gears = require("gears")
-local lain  = require("lain")
+-- local lain  = require("lain")
 local awful = require("awful")
 local wibox = require("wibox")
 local dpi   = require("beautiful.xresources").apply_dpi
@@ -20,7 +20,7 @@ theme.wallpaper                                 = theme.dir .. "/wall.png"
 theme.systray_icon_spacing                      = 2
 theme.taglist_spacing                           = 0
 theme.font                                      = "Hack Nerd Font 11"
-theme.taglist_font                              = "Hack Nerd Font 11"
+theme.taglist_font                              = "Hack Nerd Font Bold 10"
 theme.fg_normal                                 = "#D7D7D7"
 theme.fg_focus                                  = "#F6784F"
 theme.bg_normal                                 = "#1a1a1a"
