@@ -480,7 +480,8 @@ awful.screen.connect_for_each_screen(function(s)
    end
  end)
  screen.connect_signal("arrange", function (s)
-   if s.selected_tag then local max = s.selected_tag.layout.name == "max" end
+   if s.selected_tag == nil then return end 
+   max = s.selected_tag.layout.name == "max"
    local only_one = #s.tiled_clients == 1 -- use tiled_clients so that other floating windows don't affect the count
    for _, c in pairs(s.clients) do
      if (max or only_one) and not c.floating or c.maximized then
