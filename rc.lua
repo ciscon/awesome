@@ -242,10 +242,6 @@ awful.screen.connect_for_each_screen(function(s)
    {description = "view next", group = "tag"}),
    awful.key({ modkey,           }, ",",   function () tag_view_nonempty_fixed(-1) end),
    awful.key({ modkey,           }, ".",   function () tag_view_nonempty_fixed(1) end),
-   awful.key({ modkey, "Control" }, ",", function () awful.screen.focus_relative( 1) end,
-   {description = "focus the next screen", group = "screen"}),
-   awful.key({ modkey, "Control" }, ".", function () awful.screen.focus_relative(-1) end,
-   {description = "focus the previous screen", group = "screen"}),
    awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end,
    {description = "swap with next client by index", group = "client"}),
    awful.key({ modkey, "Shift"   }, "k", function () awful.client.swap.byidx( -1)    end,
@@ -331,8 +327,15 @@ awful.screen.connect_for_each_screen(function(s)
    {description = "toggle floating", group = "client"}),
    awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end,
    {description = "move to master", group = "client"}),
-   awful.key({ modkey,           }, "o",      function (c) c:move_to_screen()               end,
-   {description = "move to screen", group = "client"}),
+
+   --screen functions
+   -- awful.key({ modkey,           }, "o",      function (c) c:move_to_screen()               end,
+   -- {description = "move to screen", group = "client"}),
+   awful.key({ modkey, }, "o", function () awful.screen.focus_relative( 1) end,
+   {description = "focus the next screen", group = "screen"}),
+   awful.key({ modkey, }, "i", function () awful.screen.focus_relative(-1) end,
+   {description = "focus the previous screen", group = "screen"}),
+
    awful.key({ modkey,           }, "n",
    function (c)
      c.minimized = true
