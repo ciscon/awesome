@@ -419,79 +419,79 @@ awful.screen.connect_for_each_screen(function(s)
    }
  },
 
- { rule_any = {
-   instance = {
-     "gimp",
-     "zoom",
-   },
-   class = {
-     "gimp",
-     "zoom",
-   },
-   name = {
-   },
-   role = {
-   }
- }, properties = { floating = true }},
+ { 
+   rule_any = {
+     instance = {
+       "gimp",
+       "zoom",
+     },
+     class = {
+       "gimp",
+       "zoom",
+     },
+     name = {
+     },
+     role = {
+     }
+   }, properties = { floating = true }},
 
- { rule = { class = "Thunderbird" },
- properties = { screen = screen.count(), tag = " 1 " } },
- { rule = { class = "discord" },
- properties = { screen = 1, tag = " 7 " } },
- { rule = { class = "Hexchat" },
- properties = { screen = 1, tag = " 8 " } },
- { rule = { class = "Deadbeef" },
- properties = { screen = 1, tag = " 9 " } },
- { rule = { instance = "music.youtube.com" },
- properties = { screen = 1, tag = " 9 " } },
- { rule = { class = "steam" },
- properties = { screen = 1, tag = " 5 " } },
- { rule = { class = "Steam" },
- properties = { screen = 1, tag = " 5 " } },
- { rule = { class = "steamwebhelper" },
- properties = { screen = 1, tag = " 5 " } },
- { rule = { class = "Slack" },
- properties = { screen = 1, tag = " 6 " } },
+   { rule = { class = "Thunderbird" },
+   properties = { screen = screen.count(), tag = " 1 " } },
+   { rule = { class = "discord" },
+   properties = { screen = 1, tag = " 7 " } },
+   { rule = { class = "Hexchat" },
+   properties = { screen = 1, tag = " 8 " } },
+   { rule = { class = "Deadbeef" },
+   properties = { screen = 1, tag = " 9 " } },
+   { rule = { class = "steam" },
+   properties = { screen = 1, tag = " 5 " } },
+   { rule = { class = "Steam" },
+   properties = { screen = 1, tag = " 5 " } },
+   { rule = { class = "steamwebhelper" },
+   properties = { screen = 1, tag = " 5 " } },
+   { rule = { class = "Slack" },
+   properties = { screen = 1, tag = " 6 " } },
+   { rule_any = { class = { "youtubemusic" } },
+   properties = { floating = false } },
+ }
 
-   }
+
+ client.connect_signal("manage", function (c)
+   if not awesome.startup then awful.client.setslave(c) end
+
+   if awesome.startup
+     and not c.size_hints.user_position
+     and not c.size_hints.program_position then
+     awful.placement.no_offscreen(c)
+   end
+ end)
 
 
-   client.connect_signal("manage", function (c)
-     if not awesome.startup then awful.client.setslave(c) end
+ client.connect_signal("mouse::enter", function(c)
+   c:emit_signal("request::activate", "mouse_enter", {raise = false})
+ end)
 
-     if awesome.startup
-       and not c.size_hints.user_position
-       and not c.size_hints.program_position then
-       awful.placement.no_offscreen(c)
+ client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
+ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
+
+ client.connect_signal("request::geometry", function(c)
+   if client.focus then
+     if not client.focus.fullscreen then
+       client.focus.border_width = beautiful.border_width
      end
-   end)
-
-
-   client.connect_signal("mouse::enter", function(c)
-     c:emit_signal("request::activate", "mouse_enter", {raise = false})
-   end)
-
-   client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
-   client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
-
-   client.connect_signal("request::geometry", function(c)
-     if client.focus then
-       if not client.focus.fullscreen then
-         client.focus.border_width = beautiful.border_width
-       end
-       if client.focus.maximized then
-         client.focus.border_width = 0
-       end
+     if client.focus.maximized then
+       client.focus.border_width = 0
      end
-   end)
-   screen.connect_signal("arrange", function (s)
-     local max = s.selected_tag.layout.name == "max"
-     local only_one = #s.tiled_clients == 1 -- use tiled_clients so that other floating windows don't affect the count
-     for _, c in pairs(s.clients) do
-       if (max or only_one) and not c.floating or c.maximized then
-         c.border_width = 0
-       else
-         c.border_width = beautiful.border_width
-       end
+   end
+ end)
+ screen.connect_signal("arrange", function (s)
+   local max = s.selected_tag.layout.name == "max"
+   local only_one = #s.tiled_clients == 1 -- use tiled_clients so that other floating windows don't affect the count
+   for _, c in pairs(s.clients) do
+     if (max or only_one) and not c.floating or c.maximized then
+       c.border_width = 0
+     else
+       c.border_width = beautiful.border_width
      end
-   end)
+   end
+ end)
