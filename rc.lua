@@ -279,9 +279,27 @@ awful.screen.connect_for_each_screen(function(s)
    awful.key({ modkey, "Shift"   }, "q", awesome.quit,
    {description = "quit awesome", group = "awesome"}),
 
-   awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)          end,
+   awful.key({ modkey,           }, "l",     function () 
+     local master_c=awful.client.getmaster()
+     if master_c and master_c.width and master_c.size_hints and master_c.size_hints.max_width then
+       if master_c.width > master_c.size_hints.max_width then
+         awful.tag.incmwfact( 0.05)
+       end
+     else
+       awful.tag.incmwfact( 0.05)
+     end
+   end,
    {description = "increase master width factor", group = "layout"}),
-   awful.key({ modkey,           }, "h",     function () awful.tag.incmwfact(-0.05)          end,
+   awful.key({ modkey,           }, "h",     function () 
+     local master_c=awful.client.getmaster()
+     if master_c and master_c.width and master_c.size_hints and master_c.size_hints.min_width then
+       if master_c.width > master_c.size_hints.min_width then
+         awful.tag.incmwfact( -0.05)
+       end
+     else
+       awful.tag.incmwfact( -0.05)
+     end
+   end,
    {description = "decrease master width factor", group = "layout"}),
    awful.key({ modkey, "Shift"   }, "h",     function () awful.tag.incnmaster( 1, nil, true) end,
    {description = "increase the number of master clients", group = "layout"}),
