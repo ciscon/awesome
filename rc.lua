@@ -209,6 +209,11 @@ awful.screen.connect_for_each_screen(function(s)
      t.master_count=1
      t.column_count=1
      t.master_width_factor=0.5
+     for _, c in ipairs(t:clients()) do
+       if c.minimized == true then c.minimized=false end
+       if c.maximized == true then c.maximized=false end
+       if c.floating == true then c.floating =false end
+     end
 
    end
 
