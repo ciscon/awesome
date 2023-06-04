@@ -280,7 +280,6 @@ awful.screen.connect_for_each_screen(function(s)
    {description = "quit awesome", group = "awesome"}),
    awful.key({ modkey,           }, "l",     function () 
      local master_c=awful.client.getmaster()
-     print(master_c.size_hints.max_width)
      if master_c and master_c.width and master_c.size_hints and master_c.size_hints.max_width then
        if master_c.width < master_c.size_hints.max_width then
          awful.tag.incmwfact( 0.05)
