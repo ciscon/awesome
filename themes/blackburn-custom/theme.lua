@@ -18,6 +18,7 @@ local theme                                     = {}
 theme.dir                                       = os.getenv("HOME") .. "/.config/awesome/themes/blackburn-custom"
 theme.wallpaper                                 = theme.dir .. "/wall.png"
 theme.systray_icon_spacing                      = 2
+theme.taglist_spacing                           = 12
 theme.font                                      = "Hack Nerd Font 11"
 theme.taglist_font                              = "Icons 10"
 theme.fg_normal                                 = "#D7D7D7"

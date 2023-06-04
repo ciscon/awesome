@@ -159,7 +159,7 @@ screen.connect_signal("property::geometry", set_wallpaper)
 awful.screen.connect_for_each_screen(function(s)
   set_wallpaper(s)
 
-  awful.tag({ " 1 ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 ", " 7 ", " 8 ", " 9 " }, s, awful.layout.layouts[1])
+  awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, s, awful.layout.layouts[1])
 
   s.mypromptbox = awful.widget.prompt()
   s.mylayoutbox = awful.widget.layoutbox(s)
@@ -436,21 +436,21 @@ awful.screen.connect_for_each_screen(function(s)
    }, properties = { floating = true }},
 
    { rule = { class = "Thunderbird" },
-   properties = { screen = screen.count(), tag = " 1 " } },
+   properties = { screen = screen.count(), tag = "1" } },
    { rule = { class = "discord" },
-   properties = { screen = 1, tag = " 7 " } },
+   properties = { screen = 1, tag = "7" } },
    { rule = { class = "Hexchat" },
-   properties = { screen = 1, tag = " 8 " } },
+   properties = { screen = 1, tag = "8" } },
    { rule = { class = "Deadbeef" },
-   properties = { screen = 1, tag = " 9 " } },
+   properties = { screen = 1, tag = "9" } },
    { rule = { class = "steam" },
-   properties = { screen = 1, tag = " 5 " } },
+   properties = { screen = 1, tag = "5" } },
    { rule = { class = "Steam" },
-   properties = { screen = 1, tag = " 5 " } },
+   properties = { screen = 1, tag = "5" } },
    { rule = { class = "steamwebhelper" },
-   properties = { screen = 1, tag = " 5 " } },
+   properties = { screen = 1, tag = "5" } },
    { rule = { class = "Slack" },
-   properties = { screen = 1, tag = " 6 " } },
+   properties = { screen = 1, tag = "6" } },
    { rule_any = { class = { "youtubemusic" } },
    properties = { floating = false } },
  }
