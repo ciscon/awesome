@@ -51,7 +51,7 @@ awful.layout.layouts = {
 
 
 local spacerempty = wibox.widget{
-  markup = '  ',
+  markup = ' ',
   align  = 'center',
   valign = 'center',
   widget = wibox.widget.textbox
@@ -154,7 +154,7 @@ screen.connect_signal("property::geometry", set_wallpaper)
 awful.screen.connect_for_each_screen(function(s)
   set_wallpaper(s)
 
-  awful.tag({ "1 ", "2 ", "3 ", "4 ", "5 ", "6 ", "7 ", "8 ", "9 " }, s, awful.layout.layouts[1])
+  awful.tag({ " 1 ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 ", " 7 ", " 8 ", " 9 " }, s, awful.layout.layouts[1])
 
   s.mypromptbox = awful.widget.prompt()
   s.mylayoutbox = awful.widget.layoutbox(s)
@@ -167,6 +167,12 @@ awful.screen.connect_for_each_screen(function(s)
     screen  = s,
     filter  = awful.widget.taglist.filter.all,
     buttons = taglist_buttons
+  }
+
+  local taglist = wibox.widget {
+    s.mytaglist,
+    layout  = wibox.layout.fixed.horizontal,
+    widget = wibox.container.place,
   }
 
   s.mytasklist = awful.widget.tasklist {
@@ -183,7 +189,8 @@ awful.screen.connect_for_each_screen(function(s)
     { -- Left widgets
     layout = wibox.layout.fixed.horizontal,
     mylauncher,
-    s.mytaglist,
+    -- s.mytaglist,
+    taglist,
     spacerempty,
     s.mylayoutbox,
     s.mypromptbox,
