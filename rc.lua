@@ -469,25 +469,15 @@ awful.screen.connect_for_each_screen(function(s)
  client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
  client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 
- client.connect_signal("request::geometry", function(c)
-   if client.focus then
-     if not client.focus.fullscreen then
-       client.focus.border_width = beautiful.border_width
-     end
-     if client.focus.maximized then
-       client.focus.border_width = 0
-     end
-   end
- end)
  screen.connect_signal("arrange", function (s)
-   if s.selected_tag == nil then return end 
-   max = s.selected_tag.layout.name == "max"
-   local only_one = #s.tiled_clients == 1 -- use tiled_clients so that other floating windows don't affect the count
+   local only_one = #s.tiled_clients == 1
    for _, c in pairs(s.clients) do
-     if (max or only_one) and not c.floating or c.maximized then
-       c.border_width = 0
-     else
-       c.border_width = beautiful.border_width
+     if only_one and not c.floating or c.maximized or c.fullscreen or s.selected_tag.layout.name == "max"
+       then
+         c.border_width = 0
+       else
+         c.border_width = beautiful.border_width
+       end
+
      end
-   end
- end)
+   end)
