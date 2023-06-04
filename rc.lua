@@ -58,13 +58,6 @@ local spacerempty = wibox.widget{
 }
 
 
-local spacer = wibox.widget{
-  markup = '<span foreground="#000000"> | </span>',
-  align  = 'center',
-  valign = 'center',
-  widget = wibox.widget.textbox
-}
-
 local function tag_view_nonempty_fixed(direction, s)
   s = s or awful.screen.focused()
   local idx = s.selected_tag.index
@@ -189,8 +182,10 @@ awful.screen.connect_for_each_screen(function(s)
     layout = wibox.layout.fixed.horizontal,
     mylauncher,
     s.mytaglist,
+    spacerempty,
     s.mylayoutbox,
     s.mypromptbox,
+    spacerempty,
   },
   s.mytasklist, -- Middle widget
   { -- Right widgets
