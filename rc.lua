@@ -246,16 +246,14 @@ awful.screen.connect_for_each_screen(function(s)
    awful.key({ modkey,           }, "w", function () mymainmenu:show() end,
    {description = "show main menu", group = "awesome"}),
 
-   awful.key({ modkey,  "Shift" }, ",",   awful.tag.viewprev,
+   --tag movement
+   awful.key({ modkey,  "Control" }, "h",   awful.tag.viewprev,
    {description = "view previous", group = "tag"}),
-   awful.key({ modkey,  "Control" }, ",",   awful.tag.viewprev,
-   {description = "view previous", group = "tag"}),
-   awful.key({ modkey,  "Shift" }, ".",  awful.tag.viewnext,
+   awful.key({ modkey,  "Control" }, "l",  awful.tag.viewnext,
    {description = "view next", group = "tag"}),
-   awful.key({ modkey,  "Control" }, ".",  awful.tag.viewnext,
-   {description = "view next", group = "tag"}),
-   awful.key({ modkey,           }, ",",   function () tag_view_nonempty_fixed(-1) end),
-   awful.key({ modkey,           }, ".",   function () tag_view_nonempty_fixed(1) end),
+   awful.key({ modkey, "Shift" }, "h",   function () tag_view_nonempty_fixed(-1) end),
+   awful.key({ modkey, "Shift" }, "l",   function () tag_view_nonempty_fixed(1) end),
+
    awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end,
    {description = "swap with next client by index", group = "client"}),
    awful.key({ modkey, "Shift"   }, "k", function () awful.client.swap.byidx( -1)    end,
@@ -309,13 +307,13 @@ awful.screen.connect_for_each_screen(function(s)
      end
    end,
    {description = "decrease master width factor", group = "layout"}),
-   awful.key({ modkey, "Shift"   }, "h",     function () awful.tag.incnmaster( 1, nil, true) end,
+   awful.key({ modkey }, "i",     function () awful.tag.incnmaster( 1, nil, true) end,
    {description = "increase the number of master clients", group = "layout"}),
-   awful.key({ modkey, "Shift"   }, "l",     function () awful.tag.incnmaster(-1, nil, true) end,
+   awful.key({ modkey }, "d",     function () awful.tag.incnmaster(-1, nil, true) end,
    {description = "decrease the number of master clients", group = "layout"}),
-   awful.key({ modkey, "Control" }, "h",     function () awful.tag.incncol( 1, nil, true)    end,
+   awful.key({ modkey, "Shift" }, "i",     function () awful.tag.incncol( 1, nil, true)    end,
    {description = "increase the number of columns", group = "layout"}),
-   awful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1, nil, true)    end,
+   awful.key({ modkey, "Shift" }, "d",     function () awful.tag.incncol(-1, nil, true)    end,
    {description = "decrease the number of columns", group = "layout"}),
 
    awful.key({ modkey,           }, "r",     function () reset_tag() end,
@@ -362,9 +360,9 @@ awful.screen.connect_for_each_screen(function(s)
    --screen functions
    -- awful.key({ modkey,           }, "o",      function (c) c:move_to_screen()               end,
    -- {description = "move to screen", group = "client"}),
-   awful.key({ modkey, }, "o", function () awful.screen.focus_relative( 1) end,
+   awful.key({ modkey, }, ".", function () awful.screen.focus_relative( 1) end,
    {description = "focus the next screen", group = "screen"}),
-   awful.key({ modkey, }, "i", function () awful.screen.focus_relative(-1) end,
+   awful.key({ modkey, }, ",", function () awful.screen.focus_relative(-1) end,
    {description = "focus the previous screen", group = "screen"}),
 
    awful.key({ modkey,           }, "n",
