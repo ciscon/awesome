@@ -482,6 +482,8 @@ awful.screen.connect_for_each_screen(function(s)
    properties = { screen = 1, tag = " 6 " } },
    { rule_any = { class = { "youtubemusic" } },
    properties = { screen = 1, tag = " 9 ", floating = false } },
+   { rule_any = { class = { "mpv" } },
+   properties = { floating = false } },
  }
 
 
