@@ -132,6 +132,7 @@ local systray = wibox.widget.systray()
 local tray = wibox.widget {
   systray,
   valign = 'center',
+  set_reverse = true,
   halign = 'center',
   widget = wibox.container.place,
 }
