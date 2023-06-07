@@ -115,7 +115,7 @@ end))
 local white = beautiful.fg_normal
 local black = beautiful.bg_normal
 local mytextclock = wibox.widget.textclock("%a %b %m-%d-%y %H:%M ")
-mytextclock.font = beautiful.font
+mytextclock.font = beautiful.taglist_font
 
 -- cal = lain.widget.cal({
 --   attach_to = { mytextclock },
