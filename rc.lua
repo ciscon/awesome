@@ -324,9 +324,9 @@ awful.screen.connect_for_each_screen(function(s)
    awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(-1)                end,
    {description = "select prev", group = "layout"}),
    awful.key({ modkey, }, "m", function (c)
-     if c then
-       c:swap(awful.client.getmaster())
-     end
+     -- if c then
+       -- c:swap(awful.client.getmaster())
+     -- end
      awful.layout.set(awful.layout.suit.max)
    end,
    {description = "max layout, focus current client", group = "layout"}),
