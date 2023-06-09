@@ -5,6 +5,7 @@
 
 --]]
 
+local naughty = require("naughty")
 local gears = require("gears")
 -- local lain  = require("lain")
 local awful = require("awful")
@@ -20,10 +21,15 @@ theme.systray_icon_spacing                      = 3
 theme.taglist_spacing                           = 0
 theme.font                                      = "Hack Nerd Font 11"
 theme.taglist_font                              = "Hack Nerd Font Bold 10"
+
+--notifications
+naughty.config.defaults.border_width            = 3
+naughty.config.defaults.margin                  = 20
 theme.notification_font                         = "Hack Nerd Font 9"
-theme.notification_bg                           = "#888888"
+theme.notification_bg                           = "#AAAAAA"
 theme.notification_fg                           = "#222222"
 theme.notification_border_color                 = "#F6784F"
+
 -- theme.notification_border_color                 = "#555555"
 theme.fg_normal                                 = "#D7D7D7"
 theme.fg_focus                                  = "#F6784F"
