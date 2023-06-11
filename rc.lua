@@ -129,7 +129,8 @@ function widget_loadavg(format)
   local n = f:read()
   f:close()
   local pos = n:find(' ', n:find(' ', n:find(' ')+1)+1)
-  loadavg_widget:set_markup('<span foreground="'..beautiful.border_focus..'">'..n:sub(1,pos-10)..'</span>')
+  loadavg_widget:set_markup('<span foreground="'..beautiful.tasklist_fg_minimize..'">'..n:sub(1,pos-10)..'</span>')
+  -- loadavg_widget:set_markup('<span foreground="'..beautiful.border_focus..'">'..n:sub(1,pos-10)..'</span>')
 end
 
 local loadavg_timer = require("gears.timer")
@@ -214,7 +215,6 @@ awful.screen.connect_for_each_screen(function(s)
     { -- Left widgets
     layout = wibox.layout.fixed.horizontal,
     mylauncher,
-    -- s.mytaglist,
     taglist,
     spacerempty,
     s.mylayoutbox,
@@ -224,7 +224,9 @@ awful.screen.connect_for_each_screen(function(s)
   s.mytasklist, -- Middle widget
   { -- Right widgets
   layout = wibox.layout.fixed.horizontal,
-  wibox.container.margin(tray,10,10,2,2),
+  spacerempty,
+  wibox.container.margin(tray,0,5,2,2),
+  spacerempty,
   loadavg_widget,
   spacerempty,
   mytextclock,
