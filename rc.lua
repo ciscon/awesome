@@ -117,6 +117,30 @@ local black = beautiful.bg_normal
 local mytextclock = wibox.widget.textclock("%a %b %m-%d-%y %H:%M ")
 mytextclock.font = beautiful.taglist_font
 
+
+-- load avg
+local loadavg_widget = wibox.widget {
+  widget = wibox.widget.textbox
+}
+-- loadavg_widget.markup = "<span foreground=\"red\">%A</span>"
+
+function widget_loadavg(format)
+  local f = io.open('/proc/loadavg')
+  local n = f:read()
+  f:close()
+  local pos = n:find(' ', n:find(' ', n:find(' ')+1)+1)
+  loadavg_widget:set_markup('<span foreground="'..beautiful.border_focus..'">'..n:sub(1,pos-10)..'</span>')
+end
+
+local loadavg_timer = require("gears.timer")
+loadavg_timer {
+  timeout = 1,
+  call_now  = true,
+  autostart = true,
+  callback = widget_loadavg
+}
+
+
 -- cal = lain.widget.cal({
 --   attach_to = { mytextclock },
 --   notification_preset = {
@@ -202,6 +226,9 @@ awful.screen.connect_for_each_screen(function(s)
   layout = wibox.layout.fixed.horizontal,
   spacerempty,
   wibox.container.margin(tray,0,0,2,2),
+  spacerempty,
+  spacerempty,
+  loadavg_widget,
   spacerempty,
   mytextclock,
 },
