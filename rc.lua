@@ -32,7 +32,7 @@ do
   end)
 end
 
-beautiful.init(os.getenv("HOME") .. "/.config/awesome/themes/blackburn-custom/theme.lua")
+beautiful.init(os.getenv("HOME") .. "/.config/awesome/themes/ciscon-custom/theme.lua")
 
 terminal = "terminal"
 screenshot_cmd = "screenshot"
