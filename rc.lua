@@ -174,6 +174,14 @@ local function set_wallpaper(s)
   end
 end
 
+-- local function tasklist_custom(s)
+--   local count = 0
+--   for _ in pairs(awful.widget.tasklist.filter.all) do count = count + 1 end
+--   -- if count > 3 then return awful.widget.tasklist.filter.focused else return awful.widget.tasklist.filter.currenttags end
+--   -- return awful.widget.tasklist.filter.currenttags
+--   filter=awful.widget.tasklist.filter.focused
+-- end
+
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)                                                        
 screen.connect_signal("property::geometry", set_wallpaper)
 
@@ -189,6 +197,7 @@ awful.screen.connect_for_each_screen(function(s)
   awful.button({ }, 3, function () awful.layout.inc(-1) end),
   awful.button({ }, 4, function () awful.layout.inc( 1) end),
   awful.button({ }, 5, function () awful.layout.inc(-1) end)))
+
   s.mytaglist = awful.widget.taglist {
     screen  = s,
     filter  = awful.widget.taglist.filter.all,
@@ -206,6 +215,19 @@ awful.screen.connect_for_each_screen(function(s)
     filter  = awful.widget.tasklist.filter.currenttags,
     buttons = tasklist_buttons
   }
+
+  -- asdf - why the fuck doesn't this work?
+  s.mytasklist.source = function(screen)
+    local ret = {}
+    local count=0
+    for _, c in ipairs(screen.clients) do
+      count = count + 1
+      if count < 3 then 
+        table.insert(ret, c)
+      end
+    end
+    return ret
+  end
 
   s.mywibox = awful.wibar({ position = "top", screen = s })
 
