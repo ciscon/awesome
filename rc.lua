@@ -218,6 +218,7 @@ awful.screen.connect_for_each_screen(function(s)
 
   -- asdf - why the fuck doesn't this work?
   s.mytasklist.source = function(screen)
+    print('asdfasdfasdfasdfasdf')
     local ret = {}
     local count=0
     for _, c in ipairs(screen.clients) do
@@ -247,7 +248,8 @@ awful.screen.connect_for_each_screen(function(s)
   { -- Right widgets
   layout = wibox.layout.fixed.horizontal,
   spacerempty,
-  wibox.container.margin(tray,0,5,2,2),
+  tray,
+  spacerempty,
   spacerempty,
   loadavg_widget,
   spacerempty,
@@ -373,7 +375,7 @@ awful.screen.connect_for_each_screen(function(s)
    {description = "select prev", group = "layout"}),
    awful.key({ modkey, }, "m", function (c)
      -- if c then
-       -- c:swap(awful.client.getmaster())
+     -- c:swap(awful.client.getmaster())
      -- end
      awful.layout.set(awful.layout.suit.max)
    end,
