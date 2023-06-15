@@ -19,13 +19,13 @@ theme.dir                                       = os.getenv("HOME") .. "/.config
 theme.wallpaper                                 = theme.dir .. "/wall.png"
 theme.systray_icon_spacing                      = 3 
 theme.taglist_spacing                           = 0
-theme.font                                      = "Hack Bold 10"
-theme.taglist_font                              = "Hack Bold 10"
+theme.font                                      = "Mono Bold 10"
+theme.taglist_font                              = "Mono Bold 10"
 
 --notifications
 naughty.config.defaults.border_width            = 3
 naughty.config.defaults.margin                  = 20
-theme.notification_font                         = "Hack 9"
+theme.notification_font                         = "Mono 9"
 theme.notification_bg                           = "#AAAAAA"
 theme.notification_fg                           = "#222222"
 theme.notification_border_color                 = "#F6784F"
