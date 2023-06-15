@@ -129,7 +129,7 @@ function widget_loadavg(format)
   local n = f:read()
   f:close()
   local pos = n:find(' ', n:find(' ', n:find(' ')+1)+1)
-  loadavg_widget:set_markup('<span foreground="'..beautiful.tasklist_fg_minimize..'">'..n:sub(1,pos-10)..'</span>')
+  loadavg_widget:set_markup(' <span foreground="'..beautiful.tasklist_fg_minimize..'">'..n:sub(1,pos-10)..'</span> ')
   -- loadavg_widget:set_markup('<span foreground="'..beautiful.border_focus..'">'..n:sub(1,pos-10)..'</span>')
 end
 
@@ -214,7 +214,7 @@ awful.screen.connect_for_each_screen(function(s)
     screen  = s,
     buttons = tasklist_buttons,
     -- filter  = awful.widget.tasklist.filter.currenttags
-        filter      = function (c,s)
+    filter      = function (c,s)
       local result
       result=awful.widget.tasklist.filter.focused(c,s)
       if not result then
@@ -244,9 +244,7 @@ awful.screen.connect_for_each_screen(function(s)
   spacerempty,
   tray,
   spacerempty,
-  spacerempty,
   loadavg_widget,
-  spacerempty,
   mytextclock,
 },
      }
