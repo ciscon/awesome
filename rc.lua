@@ -35,6 +35,7 @@ end
 beautiful.init(os.getenv("HOME") .. "/.config/awesome/themes/ciscon-custom/theme.lua")
 
 terminal = "terminal"
+menubar.utils.terminal = terminal -- Set the terminal for applications that require it
 screenshot_cmd = "screenshot"
 browser_cmd = "browser"
 browser_private_cmd = "browser --incognito --private"
@@ -392,7 +393,8 @@ awful.screen.connect_for_each_screen(function(s)
    end,
    {description = "restore minimized", group = "client"}),
 
-   awful.key({ modkey },            "p",     function () awful.screen.focused().mypromptbox:run() end,
+   -- awful.key({ modkey },            "p",     function () awful.screen.focused().mypromptbox:run() end,
+   awful.key({ modkey },            "p",     function () menubar.show()  end,
    {description = "run prompt", group = "launcher"})
 
    )
