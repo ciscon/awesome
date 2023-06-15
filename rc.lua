@@ -212,23 +212,17 @@ awful.screen.connect_for_each_screen(function(s)
 
   s.mytasklist = awful.widget.tasklist {
     screen  = s,
-    filter  = awful.widget.tasklist.filter.currenttags,
-    buttons = tasklist_buttons
-  }
-
-  -- asdf - why the fuck doesn't this work?
-  s.mytasklist.source = function(screen)
-    print('asdfasdfasdfasdfasdf')
-    local ret = {}
-    local count=0
-    for _, c in ipairs(screen.clients) do
-      count = count + 1
-      if count < 3 then 
-        table.insert(ret, c)
+    buttons = tasklist_buttons,
+    -- filter  = awful.widget.tasklist.filter.currenttags
+        filter      = function (c,s)
+      local result
+      result=awful.widget.tasklist.filter.focused(c,s)
+      if not result then
+        result=awful.widget.tasklist.filter.minimizedcurrenttags(c,s)
       end
-    end
-    return ret
-  end
+      return result
+    end,
+  }
 
   s.mywibox = awful.wibar({ position = "top", screen = s })
 
