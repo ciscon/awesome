@@ -417,6 +417,11 @@ awful.screen.connect_for_each_screen(function(s)
 
    awful.key({ modkey,           }, "n",
    function (c)
+     -- set the minimized client to last slave
+     local tag = awful.screen.focused().selected_tag
+     local cnum=#tag:clients()
+     awful.client.swap.byidx(cnum+1,c)
+     awful.client.setslave(c)
      c.minimized = true
    end ,
    {description = "minimize", group = "client"})
