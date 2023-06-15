@@ -29,6 +29,8 @@ theme.notification_font                         = "Mono 9"
 theme.notification_bg                           = "#AAAAAA"
 theme.notification_fg                           = "#222222"
 theme.notification_border_color                 = "#F6784F"
+theme.notification_max_width                    = 800
+
 
 -- theme.notification_border_color                 = "#555555"
 theme.fg_normal                                 = "#D7D7D7"
