@@ -95,12 +95,12 @@ awful.button({ modkey }, 5,  function(t) awful.tag.viewprev(t.screen) end)
 local tasklist_buttons = gears.table.join(
 awful.button({ }, 1, function (c)
   if c == client.focus then
-     -- set the minimized client to last slave                                                                                          
-     local tag = awful.screen.focused().selected_tag
-     local cnum=#tag:clients()
-     awful.client.swap.byidx(cnum+1,c)
-     awful.client.setslave(c)
-     c.minimized = true
+    -- set the minimized client to last slave                                                                                          
+    local tag = awful.screen.focused().selected_tag
+    local cnum=#tag:clients()
+    awful.client.swap.byidx(cnum+1,c)
+    awful.client.setslave(c)
+    c.minimized = true
   else
     c:emit_signal(
     "request::activate",
@@ -114,7 +114,8 @@ awful.button({ }, 4, function ()
 end),
 awful.button({ }, 5, function ()
   awful.client.focus.byidx(-1)
-end))
+end)
+)
 
 
 -- local markup = lain.util.markup
@@ -168,6 +169,7 @@ local tray = wibox.widget {
   widget = wibox.container.place,
 }
 
+
 local function set_wallpaper(s)
   -- Wallpaper
   if beautiful.wallpaper then
@@ -180,14 +182,6 @@ local function set_wallpaper(s)
   end
 end
 
--- local function tasklist_custom(s)
---   local count = 0
---   for _ in pairs(awful.widget.tasklist.filter.all) do count = count + 1 end
---   -- if count > 3 then return awful.widget.tasklist.filter.focused else return awful.widget.tasklist.filter.currenttags end
---   -- return awful.widget.tasklist.filter.currenttags
---   filter=awful.widget.tasklist.filter.focused
--- end
-
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)                                                        
 screen.connect_signal("property::geometry", set_wallpaper)
 
@@ -198,11 +192,14 @@ awful.screen.connect_for_each_screen(function(s)
 
   s.mypromptbox = awful.widget.prompt()
   s.mylayoutbox = awful.widget.layoutbox(s)
-  s.mylayoutbox:buttons(gears.table.join(
+  s.mylayoutbox:buttons(
+  gears.table.join(
   awful.button({ }, 1, function () awful.layout.inc( 1) end),
   awful.button({ }, 3, function () awful.layout.inc(-1) end),
   awful.button({ }, 4, function () awful.layout.inc( 1) end),
-  awful.button({ }, 5, function () awful.layout.inc(-1) end)))
+  awful.button({ }, 5, function () awful.layout.inc(-1) end)
+  )
+  )
 
   s.mytaglist = awful.widget.taglist {
     screen  = s,
@@ -227,7 +224,7 @@ awful.screen.connect_for_each_screen(function(s)
         result=awful.widget.tasklist.filter.minimizedcurrenttags(c,s)
       end
       return result
-    end,
+    end
   }
 
   s.mywibox = awful.wibar({ position = "top", screen = s })
@@ -256,11 +253,11 @@ awful.screen.connect_for_each_screen(function(s)
      }
    end)
 
-
    root.buttons(gears.table.join(
    awful.button({ }, 4, awful.tag.viewnext),
    awful.button({ }, 5, awful.tag.viewprev)
    ))
+
    local function reset_tag()
      local t = awful.screen.focused().selected_tag
      if not t then return end
@@ -272,7 +269,6 @@ awful.screen.connect_for_each_screen(function(s)
        if c.maximized == true then c.maximized=false end
        if c.floating == true then c.floating =false end
      end
-
    end
 
 
@@ -401,7 +397,6 @@ awful.screen.connect_for_each_screen(function(s)
    -- awful.key({ modkey },            "p",     function () awful.screen.focused().mypromptbox:run() end,
    awful.key({ modkey },            "p",     function () menubar.show()  end,
    {description = "run prompt", group = "launcher"})
-
    )
 
    clientkeys = gears.table.join(
