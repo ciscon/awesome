@@ -95,7 +95,12 @@ awful.button({ modkey }, 5,  function(t) awful.tag.viewprev(t.screen) end)
 local tasklist_buttons = gears.table.join(
 awful.button({ }, 1, function (c)
   if c == client.focus then
-    c.minimized = true
+     -- set the minimized client to last slave                                                                                          
+     local tag = awful.screen.focused().selected_tag
+     local cnum=#tag:clients()
+     awful.client.swap.byidx(cnum+1,c)
+     awful.client.setslave(c)
+     c.minimized = true
   else
     c:emit_signal(
     "request::activate",
