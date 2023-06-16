@@ -22,14 +22,6 @@ theme.taglist_spacing                           = 0
 theme.font                                      = "Mono Bold 10"
 theme.taglist_font                              = "Mono Bold 10"
 theme.useless_gap                                = dpi(2)
---notifications
-naughty.config.defaults.border_width            = dpi(3)
-naughty.config.defaults.margin                  = dpi(20)
-theme.notification_font                         = "Mono 9"
-theme.notification_bg                           = "#AAAAAA"
-theme.notification_fg                           = "#222222"
-theme.notification_border_color                 = theme.fg_focus
-theme.notification_max_width                    = 800
 
 
 theme.fg_normal                                 = "#D7D7D7"
@@ -72,5 +64,17 @@ theme.ocol                                      = "<span color='" .. theme.fg_no
 -- disables above prepending of window type when set to true
 -- theme.tasklist_plain_task_name                  = true
 theme.tasklist_disable_icon                     = true
+
+--notifications
+naughty.config.defaults.border_width            = dpi(3)
+naughty.config.defaults.margin                  = dpi(20)
+theme.notification_font                         = "Mono 9"
+theme.notification_bg                           = "#AAAAAA"
+theme.notification_fg                           = "#222222"
+theme.notification_border_color                 = theme.fg_focus
+theme.notification_max_width                    = 800
+
+
+
 
 return theme
