@@ -21,13 +21,13 @@ theme.systray_icon_spacing                      = 3
 theme.taglist_spacing                           = 0
 theme.font                                      = "Mono Bold 10"
 theme.taglist_font                              = "Mono Bold 10"
-theme.useless_gap                                = dpi(2)
-
+theme.useless_gap                               = dpi(2)
+theme.gap_single_client                         = false
 
 theme.fg_normal                                 = "#D7D7D7"
 theme.fg_focus                                  = "#F6784F"
-theme.bg_normal                                 = "#000000"
-theme.bg_focus                                  = theme.bg_focus
+theme.bg_normal                                 = "#252525"
+theme.bg_focus                                  = theme.bg_normal
 theme.bg_urgent                                 = "#5A3F3E"
 theme.border_width                              = dpi(2)
 theme.border_normal                             = "#404040"
@@ -36,7 +36,7 @@ theme.taglist_fg_focus                          = theme.fg_focus
 theme.taglist_bg_focus                          = theme.bg_focus
 theme.tasklist_fg_focus                         = theme.fg_focus 
 theme.tasklist_bg_focus                         = theme.bg_focus
-theme.tasklist_fg_minimize                      = "#707070"
+theme.tasklist_fg_minimize                      = "#909090"
 theme.menu_height                               = dpi(16)
 theme.menu_width                                = dpi(130)
 theme.menu_submenu_icon                         = theme.dir .. "/icons/submenu.png"
