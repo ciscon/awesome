@@ -7,11 +7,6 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 local naughty = require("naughty")
 local menubar = require("menubar")
-local hotkeys_popup = require("awful.hotkeys_popup")
-
--- local lain = require("lain")
-
-local has_fdo, freedesktop = pcall(require, "freedesktop")
 
 if awesome.startup_errors then
    naughty.notify({ preset = naughty.config.presets.critical,
