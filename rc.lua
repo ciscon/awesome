@@ -119,8 +119,6 @@ local tasklist_buttons = gears.table.join(
 
 
 -- local markup = lain.util.markup
-local white = beautiful.fg_normal
-local black = beautiful.bg_normal
 local mytextclock = wibox.widget.textclock("%a %b %m-%d-%y %H:%M ")
 mytextclock.font = beautiful.taglist_font
 
@@ -185,8 +183,9 @@ local trayscreen = screen[1]
 local systray = wibox.widget.systray()
 local tray = wibox.widget {
    systray,
+   layout = wibox.container.margin,
+   margins = beautiful.border_width+1,
    valign = 'center',
-   set_reverse = true,
    halign = 'center',
    widget = wibox.container.place,
 }
@@ -201,7 +200,7 @@ local function set_wallpaper(s)
          wallpaper = wallpaper(s)
       end
       local offset={}
-      offset.y=beautiful.menu_height
+      offset.y=beautiful.menu_height/2
       gears.wallpaper.maximized(wallpaper, s, true, offset)
    end
 end
@@ -251,7 +250,10 @@ awful.screen.connect_for_each_screen(function(s)
          end
       }
 
-      s.mywibox = awful.wibar({ position = "top", screen = s })
+      s.mywibox = awful.wibar({
+        position = "top",
+        height = beautiful.menu_height, -- bar height
+        screen = s })
 
       s.mywibox:setup {
 
