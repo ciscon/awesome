@@ -74,7 +74,4 @@ theme.notification_fg                           = "#222222"
 theme.notification_border_color                 = theme.fg_focus
 theme.notification_max_width                    = 800
 
-
-
-
 return theme

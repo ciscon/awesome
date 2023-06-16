@@ -200,7 +200,9 @@ local function set_wallpaper(s)
       if type(wallpaper) == "function" then
          wallpaper = wallpaper(s)
       end
-      gears.wallpaper.maximized(wallpaper, s, true)
+      local offset={}
+      offset.y=beautiful.menu_height
+      gears.wallpaper.maximized(wallpaper, s, true, offset)
    end
 end
 
