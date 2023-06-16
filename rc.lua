@@ -122,57 +122,41 @@ mytextclock.font = beautiful.taglist_font
 local loadavg_widget = wibox.widget {
    widget = wibox.widget.textbox
 }
--- loadavg_widget.markup = "<span foreground=\"red\">%A</span>"
+local loadavgcmd = 
+[[sh -c '
+while :; do
+  cat /proc/loadavg||exit
+  sleep 1 
+  done
+']]
+awful.spawn.with_line_callback(loadavgcmd, {
+  stdout=function (line)
+    if line ~= nil then
+      local pos = line:find(' ', line:find(' ', line:find(' ')+1)+1)
+      loadavg_widget:set_markup('<span foreground="'..beautiful.tasklist_fg_minimize..'">Load:'..line:sub(1,pos-10)..'</span>')
+    end
+  end
+})
 
-function widget_loadavg(format)
-   local f = io.open('/proc/loadavg')
-   local n = f:read()
-   f:close()
-   local pos = n:find(' ', n:find(' ', n:find(' ')+1)+1)
-   loadavg_widget:set_markup('<span foreground="'..beautiful.tasklist_fg_minimize..'">Load:'..n:sub(1,pos-10)..'</span>')
-end
 
-local loadavg_timer = require("gears.timer")
-loadavg_timer {
-   timeout = 5,
-   call_now  = true,
-   autostart = true,
-   callback = widget_loadavg
-}
-
--- gpu load
+-- gpu load widget
 local gpuload_widget = wibox.widget {
-   widget = wibox.widget.textbox
+  widget = wibox.widget.textbox
 }
-
-
-function widget_gpuload(format)
-   local f = io.open('/sys/class/drm/card0/device/gpu_busy_percent')
-   if f then
-   local n = f:read()
-   f:close()
-   gpuload_widget:set_markup('<span foreground="'..beautiful.tasklist_fg_minimize..'">GPU:'..n..'</span>')
-   end 
-end
-
-local gpuload_timer = require("gears.timer")
-gpuload_timer {
-   timeout = 5,
-   call_now  = true,
-   autostart = true,
-   callback = widget_gpuload
-}
-
-
--- cal = lain.widget.cal({
---   attach_to = { mytextclock },
---   notification_preset = {
---     font = beautiful.font,
---     fg   = white,
---     bg = black
---   }
--- })
-
+local gpuloadcmd = 
+[[sh -c '
+while :; do
+  cat /sys/class/drm/card0/device/gpu_busy_percent||exit
+  sleep 1 
+  done
+']]
+awful.spawn.with_line_callback(gpuloadcmd, {
+  stdout=function (line)
+    if line ~= nil then
+      gpuload_widget:set_markup('<span foreground="'..beautiful.tasklist_fg_minimize..'">GPU:'..line..'</span>')
+    end
+  end
+})
 
 local trayscreen = screen[1]
 local systray = wibox.widget.systray()
