@@ -21,10 +21,10 @@ theme.systray_icon_spacing                      = 3
 theme.taglist_spacing                           = 0
 theme.font                                      = "Mono Bold 10"
 theme.taglist_font                              = "Mono Bold 10"
-
+theme.useless_gap                                = dpi(2)
 --notifications
-naughty.config.defaults.border_width            = 3
-naughty.config.defaults.margin                  = 20
+naughty.config.defaults.border_width            = dpi(3)
+naughty.config.defaults.margin                  = dpi(20)
 theme.notification_font                         = "Mono 9"
 theme.notification_bg                           = "#AAAAAA"
 theme.notification_fg                           = "#222222"
@@ -32,16 +32,13 @@ theme.notification_border_color                 = "#F6784F"
 theme.notification_max_width                    = 800
 
 
--- theme.notification_border_color                 = "#555555"
 theme.fg_normal                                 = "#D7D7D7"
 theme.fg_focus                                  = "#F6784F"
 theme.bg_normal                                 = "#1a1a1a"
 theme.bg_focus                                  = "#1a1a1a"
---theme.fg_urgent                                 = "#CC9393"
 theme.bg_urgent                                 = "#5A3F3E"
---theme.bg_urgent                                 = "#2A1F1E"
 theme.border_width                              = dpi(2)
-theme.border_normal                             = "#0E0E0E"
+theme.border_normal                             = "#404040"
 theme.border_focus                              = "#F79372"
 theme.taglist_fg_focus                          = "#F6784F"
 theme.taglist_bg_focus                          = "#1a1a1a"
@@ -75,6 +72,5 @@ theme.ocol                                      = "<span color='" .. theme.fg_no
 -- disables above prepending of window type when set to true
 -- theme.tasklist_plain_task_name                  = true
 theme.tasklist_disable_icon                     = true
-theme.useless_gap                               = 0
 
 return theme
