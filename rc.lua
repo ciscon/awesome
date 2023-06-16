@@ -136,16 +136,38 @@ function widget_loadavg(format)
    local n = f:read()
    f:close()
    local pos = n:find(' ', n:find(' ', n:find(' ')+1)+1)
-   loadavg_widget:set_markup(' <span foreground="'..beautiful.tasklist_fg_minimize..'">'..n:sub(1,pos-10)..'</span> ')
-   -- loadavg_widget:set_markup('<span foreground="'..beautiful.border_focus..'">'..n:sub(1,pos-10)..'</span>')
+   loadavg_widget:set_markup('<span foreground="'..beautiful.tasklist_fg_minimize..'">Load:'..n:sub(1,pos-10)..'</span>')
 end
 
 local loadavg_timer = require("gears.timer")
 loadavg_timer {
-   timeout = 1,
+   timeout = 5,
    call_now  = true,
    autostart = true,
    callback = widget_loadavg
+}
+
+-- gpu load
+local gpuload_widget = wibox.widget {
+   widget = wibox.widget.textbox
+}
+
+
+function widget_gpuload(format)
+   local f = io.open('/sys/class/drm/card0/device/gpu_busy_percent')
+   if f then
+   local n = f:read()
+   f:close()
+   gpuload_widget:set_markup('<span foreground="'..beautiful.tasklist_fg_minimize..'">GPU:'..n..'</span>')
+   end 
+end
+
+local gpuload_timer = require("gears.timer")
+gpuload_timer {
+   timeout = 5,
+   call_now  = true,
+   autostart = true,
+   callback = widget_gpuload
 }
 
 
@@ -247,7 +269,12 @@ awful.screen.connect_for_each_screen(function(s)
             spacerempty,
             tray,
             spacerempty,
+            spacerempty,
             loadavg_widget,
+            spacerempty,
+            gpuload_widget,
+            spacerempty,
+            spacerempty,
             mytextclock,
          },
       }
