@@ -117,6 +117,8 @@ local tasklist_buttons = gears.table.join(
 local mytextclock = wibox.widget.textclock("%a %b %m-%d-%y %H:%M ")
 mytextclock.font = beautiful.taglist_font
 
+local loadcolor="#81a2be"
+local loadlabelcolor=beautiful.tasklist_fg_minimize
 
 -- load avg
 local loadavg_widget = wibox.widget {
@@ -133,8 +135,7 @@ awful.spawn.with_line_callback(loadavgcmd, {
   stdout=function (line)
     if line ~= nil then
       local pos = line:find(' ', line:find(' ', line:find(' ')+1)+1)
-      loadavg_widget:set_markup('<span foreground="'..beautiful.border_focus..'">Load:'..line:sub(1,pos-10)..'</span>')
-      -- loadavg_widget:set_markup('<span foreground="'..beautiful.tasklist_fg_minimize..'">Load:'..line:sub(1,pos-10)..'</span>')
+      loadavg_widget:set_markup('<span foreground="'..loadlabelcolor..'">Load:</span><span foreground="'..loadcolor..'">'..line:sub(1,pos-10)..'</span>')
     end
   end
 })
@@ -154,7 +155,7 @@ while :; do
 awful.spawn.with_line_callback(gpuloadcmd, {
   stdout=function (line)
     if line ~= nil then
-      gpuload_widget:set_markup('<span foreground="'..beautiful.border_focus..'">GPU:'..line..'</span>')
+      gpuload_widget:set_markup('<span foreground="'..loadlabelcolor..'">GPU:</span><span foreground="'..loadcolor..'">'..line..'</span>')
     end
   end
 })
@@ -254,6 +255,7 @@ awful.screen.connect_for_each_screen(function(s)
             spacerempty,
             spacerempty,
             loadavg_widget,
+            spacerempty,
             gpuload_widget,
             spacerempty,
             spacerempty,
