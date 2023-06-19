@@ -126,7 +126,7 @@ local loadavgcmd =
 [[sh -c '
 while :; do
   cat /proc/loadavg||exit
-  sleep 1 
+  sleep 5
   done
 ']]
 awful.spawn.with_line_callback(loadavgcmd, {
@@ -148,7 +148,7 @@ local gpuloadcmd =
 [[sh -c '
 while :; do
   cat /sys/class/drm/card0/device/gpu_busy_percent||exit
-  sleep 1
+  sleep 5
   done
 ']]
 awful.spawn.with_line_callback(gpuloadcmd, {
