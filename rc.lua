@@ -260,7 +260,6 @@ awful.screen.connect_for_each_screen(function(s)
             spacerempty,
             mytextclock,
             spacerempty,
-            spacerempty,
             tray,
          },
       }
