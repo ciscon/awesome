@@ -133,7 +133,8 @@ awful.spawn.with_line_callback(loadavgcmd, {
   stdout=function (line)
     if line ~= nil then
       local pos = line:find(' ', line:find(' ', line:find(' ')+1)+1)
-      loadavg_widget:set_markup('<span foreground="'..beautiful.tasklist_fg_minimize..'">Load:'..line:sub(1,pos-10)..'</span>')
+      loadavg_widget:set_markup('<span foreground="'..beautiful.border_focus..'">Load:'..line:sub(1,pos-10)..'</span>')
+      -- loadavg_widget:set_markup('<span foreground="'..beautiful.tasklist_fg_minimize..'">Load:'..line:sub(1,pos-10)..'</span>')
     end
   end
 })
@@ -147,13 +148,13 @@ local gpuloadcmd =
 [[sh -c '
 while :; do
   cat /sys/class/drm/card0/device/gpu_busy_percent||exit
-  sleep 1 
+  sleep 1
   done
 ']]
 awful.spawn.with_line_callback(gpuloadcmd, {
   stdout=function (line)
     if line ~= nil then
-      gpuload_widget:set_markup('<span foreground="'..beautiful.tasklist_fg_minimize..'">GPU:'..line..'</span>')
+      gpuload_widget:set_markup('<span foreground="'..beautiful.border_focus..'">GPU:'..line..'</span>')
     end
   end
 })
@@ -250,15 +251,17 @@ awful.screen.connect_for_each_screen(function(s)
          { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             spacerempty,
-            tray,
             spacerempty,
             spacerempty,
             loadavg_widget,
-            spacerempty,
             gpuload_widget,
             spacerempty,
             spacerempty,
+            spacerempty,
             mytextclock,
+            spacerempty,
+            spacerempty,
+            tray,
          },
       }
 end)
