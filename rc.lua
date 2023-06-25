@@ -551,7 +551,7 @@ awful.rules.rules = {
    { rule_any = { class = { "youtubemusic" } },
      properties = { screen = 1, tag = " 9 ", floating = false } },
    { rule_any = { class = { "mpv" } },
-     properties = { floating = false } },
+     properties = { ontop = true } },
    { rule_any = { class = { "Workspacesclient" } },
      properties = { floating = true } },
 }
