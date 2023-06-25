@@ -31,6 +31,7 @@ beautiful.init(os.getenv("HOME") .. "/.config/awesome/themes/ciscon-custom/theme
 
 terminal = "terminal"
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
+menubar.show_categories = false
 screenshot_cmd = "screenshot"
 browser_cmd = "browser"
 browser_private_cmd = "browser --incognito --private"
@@ -540,6 +541,8 @@ awful.rules.rules = {
    { rule = { class = "steam" },
      properties = { screen = 1, tag = " 5 " } },
    { rule = { class = "Steam" },
+     properties = { screen = 1, tag = " 5 " } },
+   { rule = { name = "Steam" },
      properties = { screen = 1, tag = " 5 " } },
    { rule = { class = "steamwebhelper" },
      properties = { screen = 1, tag = " 5 " } },
