@@ -25,13 +25,13 @@ theme.useless_gap                               = dpi(2)
 theme.gap_single_client                         = false
 
 theme.fg_normal                                 = "#D7D7D7"
-theme.fg_focus                                  = "#F6784F"
+theme.fg_focus                                  = "#DE935F"
 theme.bg_normal                                 = "#252525"
 theme.bg_focus                                  = theme.bg_normal
-theme.bg_urgent                                 = "#5A3F3E"
+theme.bg_urgent                                 = "#DE935F50"
 theme.border_width                              = dpi(2)
 theme.border_normal                             = "#404040"
-theme.border_focus                              = "#F79372"
+theme.border_focus                              = "#E0A57C"
 theme.taglist_fg_focus                          = theme.fg_focus
 theme.taglist_bg_focus                          = theme.bg_focus
 theme.tasklist_fg_focus                         = theme.fg_focus 
