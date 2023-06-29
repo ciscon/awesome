@@ -516,19 +516,19 @@ awful.rules.rules = {
      }
    },
 
-   { 
-      rule_any = {
-         instance = {
-            "gimp",
-         },
-         class = {
-            "gimp",
-         },
-         name = {
-         },
-         role = {
-         }
-      }, properties = { floating = true }},
+   -- { 
+   --    rule_any = {
+   --       instance = {
+   --          "gimp",
+   --       },
+   --       class = {
+   --          "gimp",
+   --       },
+   --       name = {
+   --       },
+   --       role = {
+   --       }
+   --    }, properties = { floating = true }},
 
    { rule = { class = "Thunderbird" },
      properties = { screen = screen.count(), tag = " 1 " } },
