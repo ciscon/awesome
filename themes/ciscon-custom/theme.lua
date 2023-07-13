@@ -68,8 +68,8 @@ theme.tasklist_disable_icon                     = true
 naughty.config.defaults.border_width            = dpi(3)
 naughty.config.defaults.margin                  = dpi(20)
 theme.notification_font                         = "Mono 9"
-theme.notification_bg                           = "#AAAAAA"
-theme.notification_fg                           = "#222222"
+theme.notification_bg                           = "#333333"
+theme.notification_fg                           = "#FFFFFF"
 theme.notification_border_color                 = theme.fg_focus
 theme.notification_max_width                    = 800
 
