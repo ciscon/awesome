@@ -496,9 +496,18 @@ clientbuttons = gears.table.join(
    end),
    awful.button({ modkey }, 3, function (c)
          c:emit_signal("request::activate", "mouse_click", {raise = true})
-         if c.floating then awful.mouse.client.resize(c) end
+         if c.floating then
+           c.size_hints_honor=true
+           awful.mouse.client.resize(c)
+         end
    end)
 )
+
+-- always disable size hints when coming out of mouse resize (floating only)
+awful.mouse.resize.add_leave_callback(function(c, args)
+  c.size_hints_honor=false
+end, "mouse.resize")
+
 
 root.keys(globalkeys)
 
@@ -560,7 +569,6 @@ awful.rules.rules = {
 
 client.connect_signal("manage", function (c)
                          if not awesome.startup then awful.client.setslave(c) end
-
                          if awesome.startup
                             and not c.size_hints.user_position
                             and not c.size_hints.program_position then
@@ -585,6 +593,5 @@ screen.connect_signal("arrange", function (s)
                             else
                                c.border_width = beautiful.border_width
                             end
-
                          end
 end)
