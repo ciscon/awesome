@@ -135,8 +135,7 @@ while :; do
 awful.spawn.with_line_callback(loadavgcmd, {
   stdout=function (line)
     if line ~= nil then
-      local pos = line:find(' ', line:find(' ', line:find(' ')+1)+1)
-      loadavg_widget:set_markup('<span foreground="'..loadlabelcolor..'">Load:</span><span foreground="'..loadcolor..'">'..line:sub(1,pos-10)..'</span>')
+      loadavg_widget:set_markup('<span foreground="'..loadlabelcolor..'">Load:</span><span foreground="'..loadcolor..'">'..line:match"^(%S+)"..'</span>')
     end
   end
 })
