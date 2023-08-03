@@ -374,21 +374,12 @@ globalkeys = gears.table.join(
       {description = "increase the number of columns", group = "layout"}),
    awful.key({ modkey, "Shift" }, "d",     function () awful.tag.incncol(-1, nil, true)    end,
       {description = "decrease the number of columns", group = "layout"}),
-
    awful.key({ modkey,           }, "r",     function () reset_tag() end,
       {description = "reset", group = "layout"}),
    awful.key({ modkey,           }, "space", function () awful.layout.inc( 1)                end,
       {description = "select next", group = "layout"}),
    awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(-1)                end,
       {description = "select prev", group = "layout"}),
-   awful.key({ modkey, }, "m", function (c)
-         if c then
-           client.focus = c
-           c:raise()
-         end
-         awful.layout.set(awful.layout.suit.max)
-   end,
-      {description = "max layout, focus current client", group = "layout"}),
    awful.key({ modkey, }, "t", function () awful.layout.set(awful.layout.suit.tile) end,
       {description = "vtile layout", group = "layout"}),
    awful.key({ modkey, "Shift" }, "t", function () awful.layout.set(awful.layout.suit.tile.top) end,
@@ -397,7 +388,9 @@ globalkeys = gears.table.join(
       {description = "fair layout", group = "layout"}),
    awful.key({ modkey, }, "f", function () awful.layout.set(awful.layout.suit.float) end,
       {description = "float layout", group = "layout"}),
-
+   -- awful.key({ modkey },            "p",     function () awful.screen.focused().mypromptbox:run() end,
+   awful.key({ modkey },            "p",     function () menubar.show()  end,
+      {description = "run prompt", group = "launcher"}),
    awful.key({ modkey, "Shift" }, "n",
       function ()
          local c = awful.client.restore()
@@ -407,21 +400,24 @@ globalkeys = gears.table.join(
             )
          end
       end,
-      {description = "restore minimized", group = "client"}),
-
-   -- awful.key({ modkey },            "p",     function () awful.screen.focused().mypromptbox:run() end,
-   awful.key({ modkey },            "p",     function () menubar.show()  end,
-      {description = "run prompt", group = "launcher"})
+      {description = "restore minimized", group = "client"})
 )
 
 clientkeys = gears.table.join(
+   awful.key({ modkey, }, "m", function (c)
+         if c then
+           client.focus = c
+           c:raise()
+         end
+         awful.layout.set(awful.layout.suit.max)
+   end,
+      {description = "max layout, focus current client", group = "layout"}),
    awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end,
       {description = "close", group = "client"}),
    awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ,
       {description = "toggle floating", group = "client"}),
    awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end,
       {description = "move to master", group = "client"}),
-
    --screen functions
    -- awful.key({ modkey,           }, "o",      function (c) c:move_to_screen()               end,
    -- {description = "move to screen", group = "client"}),
