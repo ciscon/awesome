@@ -267,10 +267,10 @@ awful.screen.connect_for_each_screen(function(s)
       }
 end)
 
-root.buttons(gears.table.join(
-                awful.button({ }, 4, awful.tag.viewnext),
-                awful.button({ }, 5, awful.tag.viewprev)
-))
+-- root.buttons(gears.table.join(
+--                 awful.button({ }, 4, awful.tag.viewnext),
+--                 awful.button({ }, 5, awful.tag.viewprev)
+-- ))
 
 local function reset_tag()
    local t = awful.screen.focused().selected_tag
