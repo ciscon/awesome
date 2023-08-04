@@ -388,6 +388,8 @@ globalkeys = gears.table.join(
       {description = "fair layout", group = "layout"}),
    awful.key({ modkey, }, "f", function () awful.layout.set(awful.layout.suit.float) end,
       {description = "float layout", group = "layout"}),
+   awful.key({ modkey, }, "m", function () awful.layout.set(awful.layout.suit.max) end,
+      {description = "max layout", group = "layout"}),
    -- awful.key({ modkey },            "p",     function () awful.screen.focused().mypromptbox:run() end,
    awful.key({ modkey },            "p",     function () menubar.show()  end,
       {description = "run prompt", group = "launcher"}),
@@ -409,7 +411,6 @@ clientkeys = gears.table.join(
            client.focus = c
            c:raise()
          end
-         awful.layout.set(awful.layout.suit.max)
    end,
       {description = "max layout, focus current client", group = "layout"}),
    awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end,
