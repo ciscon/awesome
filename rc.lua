@@ -407,10 +407,8 @@ globalkeys = gears.table.join(
 
 clientkeys = gears.table.join(
    awful.key({ modkey, }, "m", function (c)
-         if c then
-           client.focus = c
-           c:raise()
-         end
+     client.focus = c
+     c:raise()
    end,
       {description = "max layout, focus current client", group = "layout"}),
    awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end,
