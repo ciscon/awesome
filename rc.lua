@@ -1,30 +1,31 @@
 pcall(require, "luarocks.loader")
 
+require("awful.autofocus")
+
 local gears = require("gears")
 local awful = require("awful")
-require("awful.autofocus")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
 local naughty = require("naughty")
 local menubar = require("menubar")
 
 if awesome.startup_errors then
-   naughty.notify({ preset = naughty.config.presets.critical,
-                    title = "Oops, there were errors during startup!",
-                    text = awesome.startup_errors })
+  naughty.notify({ preset = naughty.config.presets.critical,
+  title = "Oops, there were errors during startup!",
+  text = awesome.startup_errors })
 end
 
 do
-   local in_error = false
-   awesome.connect_signal("debug::error", function (err)
-                             if in_error then return end
-                             in_error = true
+  local in_error = false
+  awesome.connect_signal("debug::error", function (err)
+    if in_error then return end
+    in_error = true
 
-                             naughty.notify({ preset = naughty.config.presets.critical,
-                                              title = "Oops, an error happened!",
-                                              text = tostring(err) })
-                             in_error = false
-   end)
+    naughty.notify({ preset = naughty.config.presets.critical,
+    title = "Oops, an error happened!",
+    text = tostring(err) })
+    in_error = false
+  end)
 end
 
 beautiful.init(os.getenv("HOME") .. "/.config/awesome/themes/ciscon-custom/theme.lua")
@@ -54,7 +55,6 @@ local spacerempty = wibox.widget{
    widget = wibox.widget.textbox
 }
 
-
 local function tag_view_nonempty_fixed(direction, s)
    s = s or awful.screen.focused()
    local idx = s.selected_tag.index
@@ -66,7 +66,6 @@ local function tag_view_nonempty_fixed(direction, s)
       end
    end
 end
-
 
 local taglist_buttons = gears.table.join(
    awful.button({ }, 1, function(t) t:view_only() end),
@@ -87,32 +86,30 @@ local taglist_buttons = gears.table.join(
    awful.button({ modkey }, 5,  function(t) awful.tag.viewprev(t.screen) end)
 )
 
-
 local tasklist_buttons = gears.table.join(
-   awful.button({ }, 1, function (c)
-         if c == client.focus then
-            -- set the minimized client to last slave                                                                                          
-            local tag = awful.screen.focused().selected_tag
-            local cnum=#tag:clients()
-            awful.client.swap.byidx(cnum+1,c)
-            awful.client.setslave(c)
-            c.minimized = true
-         else
-            c:emit_signal(
-               "request::activate",
-               "tasklist",
-               {raise = true}
-            )
-         end
-   end),
-   awful.button({ }, 4, function ()
-         awful.client.focus.byidx(1)
-   end),
-   awful.button({ }, 5, function ()
-         awful.client.focus.byidx(-1)
-   end)
+awful.button({ }, 1, function (c)
+  if c == client.focus then
+    -- set the minimized client to last slave                                                                                          
+    local tag = awful.screen.focused().selected_tag
+    local cnum=#tag:clients()
+    awful.client.swap.byidx(cnum+1,c)
+    awful.client.setslave(c)
+    c.minimized = true
+  else
+    c:emit_signal(
+    "request::activate",
+    "tasklist",
+    {raise = true}
+    )
+  end
+end),
+awful.button({ }, 4, function ()
+  awful.client.focus.byidx(1)
+end),
+awful.button({ }, 5, function ()
+  awful.client.focus.byidx(-1)
+end)
 )
-
 
 -- local markup = lain.util.markup
 local mytextclock = wibox.widget.textclock("%a %b %m-%d-%y %H:%M ")
@@ -388,7 +385,12 @@ globalkeys = gears.table.join(
       {description = "fair layout", group = "layout"}),
    awful.key({ modkey, }, "f", function () awful.layout.set(awful.layout.suit.float) end,
       {description = "float layout", group = "layout"}),
-   awful.key({ modkey, }, "m", function () awful.layout.set(awful.layout.suit.max) end,
+   awful.key({ modkey, }, "m", function () 
+     if client.focus then
+       client.focus:raise()
+     end
+     awful.layout.set(awful.layout.suit.max) 
+   end,
       {description = "max layout", group = "layout"}),
    -- awful.key({ modkey },            "p",     function () awful.screen.focused().mypromptbox:run() end,
    awful.key({ modkey },            "p",     function () menubar.show()  end,
