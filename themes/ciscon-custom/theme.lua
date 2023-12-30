@@ -74,4 +74,14 @@ theme.notification_fg                           = "#FFFFFF"
 theme.notification_border_color                 = theme.fg_focus
 theme.notification_max_width                    = 800
 
+-- search all /usr/share/icons directories for icons
+local function dirLookup(dir)
+  local p = io.popen('find "'..dir..'" -type d')
+   for file in p:lines() do
+     table.insert(naughty.config.icon_dirs,file..'/')
+  end
+end
+dirLookup("/usr/share/icons")
+naughty.config.icon_formats = {"png", "svg"}
+
 return theme
