@@ -415,7 +415,9 @@ clientkeys = gears.table.join(
       {description = "max layout, focus current client", group = "layout"}),
    awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end,
       {description = "close", group = "client"}),
-   awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ,
+   awful.key({ modkey, "Control" }, "f",  awful.client.floating.toggle                     ,
+      {description = "toggle floating", group = "client"}),
+   awful.key({ modkey, "Shift" }, "f",  awful.client.floating.toggle                     ,
       {description = "toggle floating", group = "client"}),
    awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end,
       {description = "move to master", group = "client"}),
@@ -492,7 +494,7 @@ clientbuttons = gears.table.join(
    end),
    awful.button({ modkey }, 3, function (c)
          c:emit_signal("request::activate", "mouse_click", {raise = true})
-         if c.floating then
+         if c.floating or c.screen.selected_tag.layout.name == "floating" then
            c.size_hints_honor=true
            awful.mouse.client.resize(c)
          end
