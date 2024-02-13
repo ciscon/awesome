@@ -591,5 +591,7 @@ screen.connect_signal("arrange", function (s)
                             else
                                c.border_width = beautiful.border_width
                             end
+                            -- put floating clients on top
+                            if c.floating then c.ontop = true else c.ontop = false end
                          end
 end)
