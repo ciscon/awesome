@@ -193,6 +193,8 @@ awful.screen.connect_for_each_screen(function(s)
 
       s.mypromptbox = awful.widget.prompt()
       s.mylayoutbox = awful.widget.layoutbox(s)
+      --remove tooltip from layout selector
+      s.mylayoutbox._layoutbox_tooltip:remove_from_object(s.mylayoutbox)
       s.mylayoutbox:buttons(
          gears.table.join(
             awful.button({ }, 1, function () awful.layout.inc( 1) end),
