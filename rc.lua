@@ -605,3 +605,23 @@ screen.connect_signal("arrange", function (s)
                             end
                          end
 end)
+
+
+-- focus window under mouse when switching tags
+do
+    local pending = false
+    local glib = require("lgi").GLib
+    tag.connect_signal("property::selected", function()
+        if not pending then
+            pending = true
+            glib.idle_add(glib.PRIORITY_DEFAULT_IDLE, function()
+                pending = false
+                local c = mouse.current_client
+                if c then
+                    client.focus = c
+                end
+                return false
+            end)
+        end
+    end)
+end
