@@ -609,15 +609,23 @@ end)
 
 -- focus window under mouse when switching tags
 tag.connect_signal("property::selected", function (t)
-    local selected = tostring(t.selected) == "true"
-    if selected then
-        local mouseX = mouse.coords().x
-        local mouseY = mouse.coords().y
-        for k,v in pairs(t.screen.all_clients) do
-            if v.first_tag.index==t.index and mouseX>=v.x and mouseX<=(v.x+v.width) and mouseY>=v.y and mouseY<=(v.y+v.height) then
-                client.focus = v
-                v:raise()
-            end
+  local selected = tostring(t.selected) == "true"
+  if selected then
+    local mouseX = mouse.coords().x
+    local mouseY = mouse.coords().y
+    for k,v in pairs(t.screen.all_clients) do
+      if v.first_tag.index==t.index then
+        -- if there is a client with any of these attributes leave them on top
+        if v.floating or v.maximized or v.fullscreen or t.layout.name == "max" then
+          client.focus = v
+          v:raise()
+          break
+        else if mouseX>=v.x and mouseX<=(v.x+v.width) and mouseY>=v.y and mouseY<=(v.y+v.height) then
+          client.focus = v
+          v:raise()
         end
+      end
     end
+  end
+end
 end)
