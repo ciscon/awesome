@@ -301,8 +301,6 @@ globalkeys = gears.table.join(
       end,
       {description = "focus previous by index", group = "client"}
    ),
-   awful.key({ modkey,           }, "w", function () mymainmenu:show() end,
-      {description = "show main menu", group = "awesome"}),
 
    --tag movement
    awful.key({ modkey,  "Control" }, "h",   awful.tag.viewprev,
