@@ -145,7 +145,7 @@ local gpuload_widget = wibox.widget {
 local gpuloadcmd = 
 [[sh -c '
 while :; do
-  cat /sys/class/drm/card0/device/gpu_busy_percent||exit
+  head -n1 /sys/class/drm/card*/device/gpu_busy_percent||exit
   sleep 5
   done
 ']]
