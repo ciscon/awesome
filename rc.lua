@@ -281,6 +281,7 @@ local function reset_tag()
       if c.minimized == true then c.minimized=false end
       if c.maximized == true then c.maximized=false end
       if c.floating == true then c.floating =false end
+      if c.ontop == true then c.ontop =false end
    end
 end
 
