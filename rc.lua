@@ -416,7 +416,15 @@ clientkeys = gears.table.join(
       {description = "max layout, focus current client", group = "layout"}),
    awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end,
       {description = "close", group = "client"}),
-   awful.key({ modkey, "Control" }, "f",  awful.client.floating.toggle                     ,
+      awful.key({ modkey, "Control" }, "f",  function (c) 
+        if c.floating then 
+          c.floating = true
+          c.ontop = true
+        else
+          c.floating = false
+          c.ontop = false
+        end
+      end,
       {description = "toggle floating", group = "client"}),
    awful.key({ modkey, "Shift" }, "f",  awful.client.floating.toggle                     ,
       {description = "toggle floating", group = "client"}),
@@ -575,6 +583,13 @@ client.connect_signal("manage", function (c)
                          end
 end)
 
+-- do not allow windows to maximize
+client.connect_signal("property::maximized", function(c)
+	if c.maximized then
+		c.maximized = false
+	end
+end)
+
 
 client.connect_signal("mouse::enter", function(c)
                          c:emit_signal("request::activate", "mouse_enter", {raise = false})
@@ -597,9 +612,9 @@ screen.connect_signal("arrange", function (s)
                                c.border_width = beautiful.border_width
                                -- put floating clients on top
                                if c.floating then 
-                                 c.ontop = true 
+                                 c.ontop = true
                                else
-                                 c.ontop = false 
+                                 c.ontop = false
                                end
                             end
                          end
