@@ -30,12 +30,12 @@ end
 
 beautiful.init(os.getenv("HOME") .. "/.config/awesome/themes/ciscon-custom/theme.lua")
 
-terminal = "terminal"
+terminal = os.getenv("HOME") .. "/bin/terminal"
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
 menubar.show_categories = false
-screenshot_cmd = "screenshot"
-browser_cmd = "browser"
-browser_private_cmd = "browser --incognito --private"
+screenshot_cmd = os.getenv("HOME") .. "/bin/screenshot"
+browser_cmd = os.getenv("HOME") ..  "/bin/browser"
+browser_private_cmd = os.getenv("HOME") .. "/bin/browser --incognito --private"
 
 modkey = "Mod4"
 
