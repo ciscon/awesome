@@ -138,6 +138,26 @@ awful.spawn.with_line_callback(loadavgcmd, {
 })
 
 
+-- load avg
+local meminfo_widget = wibox.widget {
+   widget = wibox.widget.textbox
+}
+local meminfocmd =
+[[bash -c '
+while :; do
+  meminfo=( $(cat /proc/meminfo) )
+  echo $(( 100-(${meminfo[7]}*100/${meminfo[1]}*100/100) ))
+  sleep 5
+  done
+']]
+awful.spawn.with_line_callback(meminfocmd, {
+  stdout=function (line)
+    if line ~= nil then
+      meminfo_widget:set_markup('<span foreground="'..loadlabelcolor..'">MemU:</span><span foreground="'..loadcolor..'">'..line:match"^(%S+)"..'%</span>')
+    end
+  end
+})
+
 -- gpu load widget
 local gpuload_widget = wibox.widget {
   widget = wibox.widget.textbox
@@ -254,6 +274,8 @@ awful.screen.connect_for_each_screen(function(s)
             spacerempty,
             spacerempty,
             loadavg_widget,
+            spacerempty,
+            meminfo_widget,
             spacerempty,
             gpuload_widget,
             spacerempty,
