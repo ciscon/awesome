@@ -35,7 +35,7 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 menubar.show_categories = false
 screenshot_cmd = os.getenv("HOME") .. "/bin/screenshot"
 browser_cmd = os.getenv("HOME") ..  "/bin/browser"
-browser_private_cmd = os.getenv("HOME") .. "/bin/browser --incognito --private"
+browser_private_cmd = os.getenv("HOME") .. "/bin/browser --incognito --private-window"
 
 modkey = "Mod4"
 
