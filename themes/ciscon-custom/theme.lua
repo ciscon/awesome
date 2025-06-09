@@ -20,8 +20,8 @@ theme.dir                                       = os.getenv("HOME") .. "/.config
 theme.wallpaper                                 = theme.dir .. "/wall.png"
 theme.systray_icon_spacing                      = dpi(5)
 theme.taglist_spacing                           = dpi(0)
-theme.font                                      = "Mono Bold " .. dpi(font_size)
-theme.taglist_font                              = "Mono Bold " .. dpi(font_size)
+theme.font                                      = "Hack Bold " .. dpi(font_size)
+theme.taglist_font                              = "Hack Bold " .. dpi(font_size)
 theme.useless_gap                               = dpi(2)
 theme.gap_single_client                         = false
 
