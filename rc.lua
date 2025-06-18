@@ -172,7 +172,26 @@ while :; do
 awful.spawn.with_line_callback(gpuloadcmd, {
   stdout=function (line)
     if line ~= nil then
-      gpuload_widget:set_markup('<span foreground="'..loadlabelcolor..'">GPU:</span><span foreground="'..loadcolor..'">'..line..'</span>')
+      gpuload_widget:set_markup('<span foreground="'..loadlabelcolor..'">GPU:</span><span foreground="'..loadcolor..'">'..line..'%</span>')
+    end
+  end
+})
+
+-- weather temp widget
+local weathertemp_widget = wibox.widget {
+  widget = wibox.widget.textbox
+}
+local weathertempcmd =
+[[sh -c '
+while :; do
+  curl -s "https://api.open-meteo.com/v1/forecast?latitude=38.9587514&longitude=-77.3585955&temperature_unit=fahrenheit&current_weather=true&format=csv"|tail -n1
+  sleep 60
+  done
+']]
+awful.spawn.with_line_callback(weathertempcmd, {
+  stdout=function (line)
+    if line ~= nil then
+      weathertemp_widget:set_markup('<span foreground="'..loadcolor..'">'..line:match"^[^,]+,([^,]+)"..'°F</span>') -- pull out second element
     end
   end
 })
@@ -282,6 +301,9 @@ awful.screen.connect_for_each_screen(function(s)
             spacerempty,
             spacerempty,
             mytextclock,
+            spacerempty,
+            weathertemp_widget,
+            spacerempty,
             spacerempty,
             tray,
          },
