@@ -184,7 +184,7 @@ local weathertemp_widget = wibox.widget {
 local weathertempcmd =
 [[sh -c '
 while :; do
-  curl -s "https://api.open-meteo.com/v1/forecast?latitude=38.9587514&longitude=-77.3585955&temperature_unit=fahrenheit&current=temperature&format=csv"|tail -n1||exit
+  curl -s "https://api.open-meteo.com/v1/forecast?latitude=38.9586&longitude=-77.3570&temperature_unit=fahrenheit&current=temperature&format=csv"|tail -n1||exit
   sleep 300
   done
 ']]
