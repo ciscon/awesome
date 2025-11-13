@@ -547,10 +547,8 @@ clientbuttons = gears.table.join(
    end),
    awful.button({ modkey }, 3, function (c)
          c:emit_signal("request::activate", "mouse_click", {raise = true})
-         if c.floating or c.screen.selected_tag.layout.name == "floating" then
-           c.size_hints_honor=true
-           awful.mouse.client.resize(c)
-         end
+         c.size_hints_honor=true
+         awful.mouse.client.resize(awful.client.getmaster())
    end)
 )
 
