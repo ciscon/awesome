@@ -184,14 +184,14 @@ local weathertemp_widget = wibox.widget {
 local weathertempcmd =
 [[sh -c '
 while :; do
-  curl -s "https://api.open-meteo.com/v1/forecast?latitude=38.9586&longitude=-77.3570&temperature_unit=fahrenheit&current=temperature&format=csv"|tail -n1||exit
+  curl -s "https://api.open-meteo.com/v1/forecast?latitude=38.9586&longitude=-77.3570&temperature_unit=fahrenheit&current=temperature,relative_humidity_2m&format=csv"|tail -n1||exit
   sleep 300
   done
 ']]
 awful.spawn.with_line_callback(weathertempcmd, {
   stdout=function (line)
     if line ~= nil then
-      weathertemp_widget:set_markup('<span foreground="'..loadcolor..'">'..line:match"^[^,]+,([^,]+)"..'°F</span>') -- pull out second element
+      weathertemp_widget:set_markup('<span foreground="'..loadcolor..'">'..line:match"^[^,]+,([^,]+),[^,]+$"..'°F '..line:match"^[^,]+,[^,]+,([^,]+)$"..'%</span>') 
     end
   end
 })
